@@ -7,7 +7,7 @@ import express from "express";
 
 dotenv.config();
 
-const dev: boolean = process.env.NODE_ENV !== "production";
+const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
