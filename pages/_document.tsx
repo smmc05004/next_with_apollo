@@ -5,6 +5,8 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
+
+// styled-components ssr 적용
 import { ServerStyleSheet } from "styled-components";
 import { ServerStyleSheets } from "@material-ui/styles";
 
