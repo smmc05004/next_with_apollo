@@ -1,15 +1,27 @@
-import { Loading_start, Loading_end, loadingActionTypes, LoadingActionCreators } from "../interfaces/module/loading/loadingact.interfaces";
+import {
+  Loading_start,
+  Loading_end,
+  loadingActionTypes,
+  LoadingActionCreators,
+} from "../interfaces/module/loading/loadingact.interfaces";
 import { loadingState } from "../interfaces/module/loading/loading.interface";
 
-export const loadingStart = (): Loading_start => ({ type: loadingActionTypes.LOADING_START });
+export const loadingStart = (): Loading_start => ({
+  type: loadingActionTypes.LOADING_START,
+});
 
-export const loadingEnd = (): Loading_end => ({ type: loadingActionTypes.LOADING_END });
+export const loadingEnd = (): Loading_end => ({
+  type: loadingActionTypes.LOADING_END,
+});
 
 const initialState: loadingState = {
   loading: false,
 };
 
-const loading = (state = initialState, action: LoadingActionCreators): loadingState => {
+const loading = (
+  state = initialState,
+  action: LoadingActionCreators
+): loadingState => {
   switch (action.type) {
     case loadingActionTypes.LOADING_START:
       return {
@@ -20,7 +32,7 @@ const loading = (state = initialState, action: LoadingActionCreators): loadingSt
         loading: false,
       };
     default:
-      return state;
+      return { ...state };
   }
 };
 

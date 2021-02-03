@@ -8,12 +8,12 @@ export enum authActionTypes {
 
 export interface Register {
   type: authActionTypes.REGISTER;
-  data: User;
+  payload: User;
 }
 
 export interface Login {
   type: authActionTypes.LOGIN;
-  data: User;
+  payload: User;
 }
 
 export interface Logout {

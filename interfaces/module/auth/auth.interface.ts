@@ -1,8 +1,8 @@
 export interface User {
   id: string;
-  pwd: string;
+  name: string;
 }
 
 export interface authState {
-  auth: User;
+  user: User | null;
 }

@@ -1,9 +1,12 @@
+import styled from "styled-components";
 import {
   GoogleLogin,
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from "react-google-login";
-import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { register } from "../../modules/auth";
+
 const AuthBtn = styled.button`
 background-color: white;
 border: none;
@@ -18,17 +21,20 @@ interface AuthType {
 }
 
 const GoogleAuth = ({ authType }: AuthType) => {
-  console.log("authType: ", authType);
+  const dispatch = useDispatch();
   const onLogin = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ) => {
     console.log("response: ", response);
   };
 
-  const onRegister = (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ) => {
-    console.log("response: ", response);
+  const onRegister = (response: any) => {
+    // console.log("response: ", response);
+    const profile = response.profileObj;
+    // console.log("profile: ", profile);
+    const id = profile.googleId;
+    const name = profile.name;
+    dispatch(register({ id, name }));
   };
 
   const onFailure = (error: any): void => {
@@ -38,7 +44,9 @@ const GoogleAuth = ({ authType }: AuthType) => {
   return (
     <GoogleLogin
       clientId="474903007958-tfrocrt5br005vl7l4qhfr0dh52o7tco.apps.googleusercontent.com"
-      onSuccess={authType === "login" ? onLogin : onRegister}
+      onSuccess={(result) =>
+        authType === "login" ? onLogin(result) : onRegister(result)
+      }
       onFailure={onFailure}
       render={(renderProps) => (
         <AuthBtn onClick={renderProps.onClick}>

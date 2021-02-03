@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../components";
 import LoadingBtn from "../components/loadingBtn";
 import { RootStateInterface } from "../interfaces/rootState";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Home = () => {
   const loading: boolean = useSelector(
