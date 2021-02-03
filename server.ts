@@ -11,7 +11,7 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const port: number = 8080;
+const port = 8080;
 
 app
   .prepare()
@@ -29,7 +29,7 @@ app
       })
     );
 
-    server.all("*", (req: express.Request, res: express.Response) => {
+    server.all("*", (req, res) => {
       return handle(req, res);
     });
 

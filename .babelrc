@@ -4,9 +4,6 @@
     "@babel/plugin-transform-arrow-functions",
     "@babel/plugin-transform-for-of",
     "@babel/plugin-transform-function-name",
-    [
-      "styled-components",
-      { "ssr": true, "displayName": true, "preprocess": false }
-    ]
+    ["styled-components", { "ssr": true, "preprocess": false }]
   ]
 }

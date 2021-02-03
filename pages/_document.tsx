@@ -44,7 +44,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="ko">
-        {/* <Head /> */}
+        <Head />
         <meta charSet="utf-8" />
         <meta
           name="viewport"

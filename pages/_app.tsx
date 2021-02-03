@@ -1,12 +1,16 @@
 import App from "next/app";
+import "../styles/globals.css";
 import { AppProps, AppContext } from "next/app"; // 타입 임포트
-import Layout from "../components/Layout"; // 레이아웃 컴포넌트 가저오기
+import { Header, Footer } from "../components";
+import wrapper from "../store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
+    <>
+      <Header />
       <Component {...pageProps} />
-    </Layout>
+      <Footer />
+    </>
   );
 }
 
@@ -15,11 +19,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 // perform automatic static optimization, causing every page in your app to
 // be server-side rendered.
 //
-MyApp.getInitialProps = async (appContext: AppContext) => {
-  // calls page's `getInitialProps` and fills `appProps.pageProps`
-  const appProps = await App.getInitialProps(appContext);
+// MyApp.getInitialProps = async (appContext: AppContext) => {
+//   // calls page's `getInitialProps` and fills `appProps.pageProps`
+//   const appProps = await App.getInitialProps(appContext);
 
-  return { ...appProps };
-};
+//   return { ...appProps };
+// };
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

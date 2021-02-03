@@ -1,15 +1,21 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import { useDispatch, useSelector } from "react-redux";
+import { Loading } from "../components";
+import LoadingBtn from "../components/loadingBtn";
+import { RootStateInterface } from "../interfaces/rootState";
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
+const Home = () => {
+  const loading: boolean = useSelector(
+    (state: RootStateInterface) => state.loading.loading
+  );
+  console.log("loadingState: ", loading);
 
-export default IndexPage
+  return (
+    <div>
+      <div>Home 페이지</div>
+      <LoadingBtn />
+      {loading && <Loading />}
+    </div>
+  );
+};
+
+export default Home;
