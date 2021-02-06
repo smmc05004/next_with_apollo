@@ -2,14 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loading } from "../components";
 import LoadingBtn from "../components/loadingBtn";
 import { RootStateInterface } from "../interfaces/rootState";
-import { useEffect } from "react";
-import axios from "axios";
+
+interface HomeVars {
+  loading: boolean;
+}
 
 const Home = () => {
-  const loading: boolean = useSelector(
-    (state: RootStateInterface) => state.loading.loading
-  );
-  console.log("loadingState: ", loading);
+  const { loading }: HomeVars = useSelector((state: RootStateInterface) => ({
+    loading: state.loading.loading,
+  }));
+
+  // console.log("loading: ", loading);
 
   return (
     <div>

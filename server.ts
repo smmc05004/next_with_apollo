@@ -56,11 +56,24 @@ nextapp
       // console.log("user: ", req.body.user);
       const user = req.body.user;
       const newName = user.name.replace(/(\s*)/g, "");
-      const query = `INSERT INTO user (user_id, user_name) VALUES ('${user.id}', '${newName}')`;
-      connection.query(query, (error, result) => {
-        if (error) throw error;
-        console.log("result: ", result);
-        res.send(result);
+      const selectQuery = `SELECT * FROM user WHERE user_id = ${user.id}`;
+      const insertQuery = `INSERT INTO user (user_id, user_name) VALUES ('${user.id}', '${newName}')`;
+
+      connection.query(selectQuery, (selectErr, selectRes) => {
+        if (selectErr) throw selectErr;
+        console.log("selectRes: ", selectRes);
+        console.log("selectRes[0]: ", selectRes[0]);
+
+        if (selectRes && selectRes[0]) {
+          console.log("aleady exists");
+          res.send({ status: 500, details: "aleady exists" });
+        } else {
+          connection.query(insertQuery, (insertErr, insertRes) => {
+            if (insertErr) throw insertErr;
+            console.log("result: ", insertRes);
+            res.send(insertRes);
+          });
+        }
       });
     });
 

@@ -5,7 +5,7 @@ import {
 } from "../interfaces/module/auth/authact.interface";
 import { authState } from "../interfaces/module/auth/auth.interface";
 import { User } from "../interfaces/module/auth/auth.interface";
-import { takeLatest } from "redux-saga/effects";
+import { call, takeLatest } from "redux-saga/effects";
 import * as authAPI from "../pages/api/users";
 
 export const register = (user: User): Register => ({
@@ -22,7 +22,8 @@ function* registerSaga(action: any) {
   const { payload } = action;
   if (!payload) return;
 
-  const registerRes = authAPI.register(payload);
+  const registerRes = yield call(authAPI.register, payload);
+  // const registerRes = authAPI.register(payload);
   console.log("registerRes: ", registerRes);
 }
 

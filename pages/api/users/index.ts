@@ -19,10 +19,11 @@ import { User } from "../../../interfaces/module/auth/auth.interface";
 // export default handler
 
 export const register = async (user: User) => {
-  console.log("user: ", user);
-  return await client.post("/user", { user }).then((res) => {
+  const users = await client.post("/user", { user }).then((res) => {
     return res;
   });
+  console.log("users: ", users);
+  return users;
 };
 
 export const getUsers = async () =>
