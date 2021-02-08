@@ -77,6 +77,17 @@ nextapp
       });
     });
 
+    app.post("/login", (req: Request, res: Response) => {
+      const uid = req.body.uid;
+      const selectQuery = `SELECT * FROM user WHERE user_id = ${uid}`;
+
+      connection.query(selectQuery, (err, queryRes) => {
+        if (err) throw err;
+        console.log("queryRes: ", queryRes);
+        res.send(queryRes);
+      });
+    });
+
     app.all("*", (req, res) => {
       return handle(req, res);
     });

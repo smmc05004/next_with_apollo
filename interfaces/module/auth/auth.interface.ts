@@ -5,4 +5,5 @@ export interface User {
 
 export interface authState {
   user: User | null;
+  isLogined: boolean;
 }

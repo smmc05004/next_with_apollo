@@ -22,8 +22,15 @@ export const register = async (user: User) => {
   const users = await client.post("/user", { user }).then((res) => {
     return res;
   });
-  console.log("users: ", users);
   return users;
+};
+
+export const login = async (uid: string) => {
+  // const loginRes = await client.post("/login", { uid }).then((res) => {
+  //   return res;
+  // });
+  // return loginRes;
+  return await client.post("/login", { uid });
 };
 
 export const getUsers = async () =>

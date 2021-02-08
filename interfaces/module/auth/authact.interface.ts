@@ -3,6 +3,8 @@ import { User } from "./auth.interface";
 export enum authActionTypes {
   REGISTER = "REGISTER",
   LOGIN = "LOGIN",
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  LOGIN_FAILURE = "LOGIN_FAILURE",
   LOGOUT = "LOGOUT",
 }
 
@@ -13,7 +15,16 @@ export interface Register {
 
 export interface Login {
   type: authActionTypes.LOGIN;
-  payload: User;
+  payload: string;
+}
+
+export interface LoginSuccess {
+  type: authActionTypes.LOGIN_SUCCESS;
+  uid: string;
+}
+
+export interface LoginFailure {
+  type: authActionTypes.LOGIN_FAILURE;
 }
 
 export interface Logout {
@@ -21,4 +32,9 @@ export interface Logout {
   id: string;
 }
 
-export type authActions = Register | Login | Logout;
+export type authActions =
+  | Register
+  | Login
+  | LoginSuccess
+  | LoginFailure
+  | Logout;
