@@ -29,7 +29,6 @@ export interface LoginFailure {
 
 export interface Logout {
   type: authActionTypes.LOGOUT;
-  id: string;
 }
 
 export type authActions =

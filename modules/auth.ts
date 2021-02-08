@@ -5,6 +5,7 @@ import {
   Login,
   LoginSuccess,
   LoginFailure,
+  Logout,
 } from "../interfaces/module/auth/authact.interface";
 import { authState } from "../interfaces/module/auth/auth.interface";
 import { User } from "../interfaces/module/auth/auth.interface";
@@ -34,6 +35,10 @@ const loginFailure = (): LoginFailure => ({
   type: authActionTypes.LOGIN_FAILURE,
 });
 
+export const logout = (): Logout => ({
+  type: authActionTypes.LOGOUT,
+});
+
 const initialState: authState = {
   user: null,
   isLogined: false,
@@ -54,11 +59,10 @@ function* registerSaga(action: any) {
 
 function* loginSaga(action: any) {
   const { payload } = action;
-  // console.log("payload: ", payload);
   if (!payload) return;
+
   const uid = payload;
   const loginRes = yield call(authAPI.login, uid);
-  // console.log("loginRes: ", loginRes);
   if (loginRes.status === 200) {
     yield put(loginSuccess({ uid }));
   } else {
@@ -88,6 +92,12 @@ const auth = (state = initialState, action: authActions): authState => {
         isLogined: true,
       };
     case authActionTypes.LOGIN_FAILURE:
+      return {
+        ...state,
+        user: null,
+        isLogined: false,
+      };
+    case authActionTypes.LOGOUT:
       return {
         ...state,
         user: null,

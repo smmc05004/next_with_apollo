@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import Link from "next/link";
 import GoogleAuth from "../oauth/googleAuth";
+import { RootStateInterface } from "../../interfaces/rootState";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../modules/auth";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,16 +23,28 @@ const Anchor = styled.a`
   line-height: 30px;
 `;
 
-const Button = styled.button`
-  font-size: 12px;
-  font-weight: 400;
-  background: none;
+const LogoutBtn = styled.button`
   border: none;
-  cursor: pointer;
-  padding: 0 10px;
+  background-color: white;
+  padding: 5px;
 `;
 
+interface HeaderVars {
+  isLogined: boolean;
+}
+
 const Header = () => {
+  const dispatch = useDispatch();
+  const { isLogined }: HeaderVars = useSelector(
+    (state: RootStateInterface) => ({
+      isLogined: state.auth.isLogined,
+    })
+  );
+
+  const onLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <Wrapper>
       <MenuWrapper>
@@ -38,8 +53,14 @@ const Header = () => {
         </Link>
       </MenuWrapper>
       <MenuWrapper>
-        <GoogleAuth authType="login" />
-        <GoogleAuth authType="register" />
+        {isLogined === true ? (
+          <LogoutBtn onClick={onLogout}>로그아웃</LogoutBtn>
+        ) : (
+          <>
+            <GoogleAuth authType="login" />
+            <GoogleAuth authType="register" />
+          </>
+        )}
       </MenuWrapper>
     </Wrapper>
   );

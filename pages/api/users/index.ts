@@ -26,10 +26,6 @@ export const register = async (user: User) => {
 };
 
 export const login = async (uid: string) => {
-  // const loginRes = await client.post("/login", { uid }).then((res) => {
-  //   return res;
-  // });
-  // return loginRes;
   return await client.post("/login", { uid });
 };
 
@@ -38,10 +34,3 @@ export const getUsers = async () =>
     console.log("res: ", res);
     return res;
   });
-
-// async function getUsers() {
-//   const users = await client.get("http://localhost:8080/users").then((res) => {
-//     console.log("res: ", res);
-//     return res;
-//   });
-// }

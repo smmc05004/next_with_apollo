@@ -8,7 +8,7 @@ import { RootStateInterface } from "../interfaces/rootState";
 const rootReducer = (
   state: RootStateInterface = {
     loading: { loading: false },
-    auth: { user: { id: "", name: "" } },
+    auth: { user: null, isLogined: false },
   },
   action: AnyAction
 ): RootStateInterface => {
