@@ -4,8 +4,8 @@ import morgan from "morgan";
 // import session from "express-session";
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
-// import mysql
 import mysql from "mysql";
+import url from 'url';
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
   user: "user1",
   password: "zxcv1234",
   database: "test",
-  port: 3306,
+  port: 3307,
   debug: true,
 });
 
@@ -52,12 +52,24 @@ nextapp
     });
 
     app.post("/user", (req: Request, res: Response) => {
-      // console.log("set");
-      // console.log("user: ", req.body.user);
       const user = req.body.user;
       const newName = user.name.replace(/(\s*)/g, "");
-      const selectQuery = `SELECT * FROM user WHERE user_id = ${user.id}`;
-      const insertQuery = `INSERT INTO user (user_id, user_name) VALUES ('${user.id}', '${newName}')`;
+
+      const selectQuery = `
+      SELECT
+        * 
+      FROM 
+        user 
+      WHERE 
+        user_id = ${user.id}
+      `;
+
+      const insertQuery = `
+      INSERT INTO user 
+        (user_id, user_name)
+      VALUES 
+        ('${user.id}', '${newName}')
+      `;
 
       connection.query(selectQuery, (selectErr, selectRes) => {
         if (selectErr) throw selectErr;
@@ -79,11 +91,55 @@ nextapp
 
     app.post("/login", (req: Request, res: Response) => {
       const uid = req.body.uid;
-      const selectQuery = `SELECT * FROM user WHERE user_id = ${uid}`;
+      const selectQuery = `
+      SELECT
+        *
+      FROM
+        user
+      WHERE
+        user_id = ${uid}
+      `;
 
       connection.query(selectQuery, (err, queryRes) => {
         if (err) throw err;
         console.log("queryRes: ", queryRes);
+        res.send(queryRes);
+      });
+    });
+
+    app.post('/post', (req:Request, res: Response) => {
+      const { content, deadline, userId } = req.body.post;
+
+      const insertQuery = `
+      INSERT INTO post
+        (contents, deadline, user_id)
+      VALUES
+        ('${content}', '${deadline}', '${userId}')
+      `;
+
+      connection.query(insertQuery, (err, queryRes) => {
+        if (err) throw err;
+        res.send(queryRes);
+      });
+    });
+
+    app.get('/posts', (req: Request, res: Response) => {
+      const queryData = url.parse(req.url, true).query;
+      const userId = queryData.id
+
+      const selectQuery = `
+      SELECT
+        contents, deadline, complete, user_id
+      FROM
+        post
+      WHERE
+        user_id = '${userId}'
+      AND
+        uses = 'y'
+      `;
+      connection.query(selectQuery, (err, queryRes) => {
+        if (err) throw err;
+
         res.send(queryRes);
       });
     });

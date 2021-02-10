@@ -7,4 +7,9 @@ import GoogleAuth from './oauth/googleAuth';
 
 // loading
 import Loading from './loading';
-export {Header, Footer, GoogleAuth, Loading};
+
+
+// post
+import postItem from './post/postItem';
+
+export { Header, Footer, GoogleAuth, Loading, postItem };

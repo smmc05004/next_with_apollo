@@ -46,11 +46,17 @@ export default class MyDocument extends Document {
       <Html lang="ko">
         <Head />
         <meta charSet="utf-8" />
-        <meta
+        {/* <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
+        /> */}
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
         />
         <meta name="next typescript" content="reactjs nextjs node typescript" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <body>
           <Main />
           <NextScript />
