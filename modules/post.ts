@@ -1,5 +1,5 @@
 import { postActionTypes, PostActions, Post_request, Post_success, Post_failure, Posts_request, Posts_success, Posts_failure } from '../interfaces/module/post/postact.interface';
-import { postState, Post, Posts } from '../interfaces/module/post/post.interface';
+import { postState, Post } from '../interfaces/module/post/post.interface';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as postAPI from '../pages/api/post';
 
@@ -8,7 +8,7 @@ interface postParam {
 }
 
 interface postsParam {
-  posts: Posts
+  posts: Post[]
 }
 
 interface postsRequestParam {

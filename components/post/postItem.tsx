@@ -7,9 +7,9 @@ interface itemInterface {
 const PostItem = ({ post }: itemInterface) => {
   return (
     <tr>
-      <td>{post.content}</td>
+      <td>{post.contents}</td>
       <td>{post.deadline}</td>
-      <td>{post.iscomplete}</td>
+      <td>{post.complete}</td>
     </tr>
   )
 }

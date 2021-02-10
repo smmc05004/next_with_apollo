@@ -1,16 +1,12 @@
 export interface Post {
-  content: string,
+  contents: string,
   deadline: string,
-  iscomplete: boolean,
+  complete: boolean,
   userId: string,
 }
 
-// export interface Posts {
-//   posts: Post[]
-// }
-
 export interface postState {
-  posts: Post[] | []
+  posts: Post[]
   post: Post | null
 }
 

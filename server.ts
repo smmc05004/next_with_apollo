@@ -129,7 +129,7 @@ nextapp
 
       const selectQuery = `
       SELECT
-        contents, deadline, complete, user_id
+        post_id, contents, deadline, complete, user_id
       FROM
         post
       WHERE

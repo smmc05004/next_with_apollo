@@ -31,10 +31,8 @@ const BtnWrapper = styled.div`
 interface postProps {
   user: User | null,
   isLogined: boolean,
-  posts: Post[] | [],
+  posts: Post[],
 }
-
-const list = [1, 2];
 
 const Todo = () => {
   const dispatch = useDispatch();
@@ -76,9 +74,9 @@ const Todo = () => {
 
     if (isLogined && user && dateVal !== '' && todo !== '') {
       const post = {
-        content: todo,
+        contents: todo,
         deadline: dateVal,
-        iscomplete: false,
+        complete: false,
         userId: user.id,
       };
       dispatch(postRequest({ post }));
@@ -121,7 +119,15 @@ const Todo = () => {
     </Container>
   );
   
-  console.log('posts: ', Array.isArray(posts));
+  const items = posts.map((post, index) => {
+      return (
+        <tr key={index}>
+          <td>{post.deadline}</td>
+          <td>{post.contents}</td>
+          <td>{post.complete}</td>
+        </tr>
+      )
+  });
 
   useEffect(() => {
     if (user) {
@@ -141,28 +147,7 @@ const Todo = () => {
           </tr>
         </thead>
         <tbody>
-          {
-            posts
-            ? (
-              posts.map((post, index) => <div>aaa</div>)
-              // posts.map((post: Post, index: number) => <div key={index}>{post.content}</div>)
-            ): null
-          }
-          {/* <tr>
-            <td>2012.02.02</td>
-            <td>청소</td>
-            <td>완료</td>
-          </tr>
-          <tr>
-            <td>2012.02.02</td>
-            <td>청소</td>
-            <td>완료</td>
-          </tr>
-          <tr>
-            <td>2012.02.02</td>
-            <td>청소</td>
-            <td>완료</td>
-          </tr> */}
+          {items}
         </tbody>
       </table>
 

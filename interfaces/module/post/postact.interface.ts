@@ -1,4 +1,4 @@
-import { Post, Posts } from './post.interface';
+import { Post, } from './post.interface';
 
 export enum postActionTypes {
   POST_REQUEST = 'POST_REQUEST',
@@ -32,7 +32,7 @@ export interface Posts_request {
 
 export interface Posts_success {
   type: postActionTypes.POSTS_SUCCESS;
-  posts: Posts
+  posts: Post[]
 }
 export interface Posts_failure {
   type: postActionTypes.POSTS_FAILURE;
