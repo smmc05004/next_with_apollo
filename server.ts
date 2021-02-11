@@ -5,7 +5,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import mysql from "mysql";
-import url from 'url';
+import url from "url";
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
   user: "user1",
   password: "zxcv1234",
   database: "test",
-  port: 3307,
+  port: 3306,
   debug: true,
 });
 
@@ -107,14 +107,14 @@ nextapp
       });
     });
 
-    app.post('/post', (req:Request, res: Response) => {
-      const { content, deadline, userId } = req.body.post;
+    app.post("/post", (req: Request, res: Response) => {
+      const { contents, deadline, userId } = req.body.post;
 
       const insertQuery = `
       INSERT INTO post
         (contents, deadline, user_id)
       VALUES
-        ('${content}', '${deadline}', '${userId}')
+        ('${contents}', '${deadline}', '${userId}')
       `;
 
       connection.query(insertQuery, (err, queryRes) => {
@@ -123,9 +123,9 @@ nextapp
       });
     });
 
-    app.get('/posts', (req: Request, res: Response) => {
+    app.get("/posts", (req: Request, res: Response) => {
       const queryData = url.parse(req.url, true).query;
-      const userId = queryData.id
+      const userId = queryData.id;
 
       const selectQuery = `
       SELECT
@@ -135,7 +135,7 @@ nextapp
       WHERE
         user_id = '${userId}'
       AND
-        uses = 'y'
+        uses = 'Y'
       `;
       connection.query(selectQuery, (err, queryRes) => {
         if (err) throw err;
