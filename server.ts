@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import mysql from "mysql";
 import url from "url";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ const connection = mysql.createConnection({
   port: 3306,
   debug: true,
 });
+
+const expireTime = 604800000;
 
 const dev = process.env.NODE_ENV !== "production";
 const nextapp = next({ dev });
@@ -43,8 +46,6 @@ nextapp
     // );
 
     app.get("/users", (req: Request, res: Response) => {
-      // console.log("ENTER");
-      console.log("req:", req.body);
       connection.query("SELECT * FROM user", (error, rows) => {
         if (error) throw error;
         res.send(rows);
@@ -73,16 +74,12 @@ nextapp
 
       connection.query(selectQuery, (selectErr, selectRes) => {
         if (selectErr) throw selectErr;
-        console.log("selectRes: ", selectRes);
-        console.log("selectRes[0]: ", selectRes[0]);
 
         if (selectRes && selectRes[0]) {
-          console.log("aleady exists");
           res.send({ status: 500, details: "aleady exists" });
         } else {
           connection.query(insertQuery, (insertErr, insertRes) => {
             if (insertErr) throw insertErr;
-            console.log("result: ", insertRes);
             res.send(insertRes);
           });
         }
@@ -102,8 +99,45 @@ nextapp
 
       connection.query(selectQuery, (err, queryRes) => {
         if (err) throw err;
-        console.log("queryRes: ", queryRes);
+
+        const token = jwt.sign(
+          {
+            exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
+            data: queryRes[0].user_id,
+          },
+          "secret"
+        );
+
+        const expireDay = new Date(Date.now() + expireTime);
+
+        res.cookie("my-cookie", token, { expires: expireDay });
         res.send(queryRes);
+      });
+    });
+
+    app.post("/check", (req: Request, res: Response) => {
+      const token = req.body.token;
+
+      const veriRes: any = jwt.verify(token, "secret");
+
+      const user_id = veriRes.data;
+      const selectQuery = `
+      SELECT
+        * 
+      FROM 
+        user 
+      WHERE 
+        user_id = ${user_id}
+      `;
+
+      connection.query(selectQuery, (err, queryRes) => {
+        if (err) throw err;
+
+        // const expireDay = new Date(Date.now() + expireTime);
+        if (queryRes && queryRes[0]) {
+          console.log("queryRes: ", queryRes);
+        }
+        res.send(veriRes);
       });
     });
 

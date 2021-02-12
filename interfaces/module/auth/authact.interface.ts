@@ -6,6 +6,7 @@ export enum authActionTypes {
   LOGIN_SUCCESS = "LOGIN_SUCCESS",
   LOGIN_FAILURE = "LOGIN_FAILURE",
   LOGOUT = "LOGOUT",
+  CHECK_LOGIN = "CHECK_LOGIN",
 }
 
 export interface Register {
@@ -31,9 +32,15 @@ export interface Logout {
   type: authActionTypes.LOGOUT;
 }
 
+export interface CheckLogin {
+  type: authActionTypes.CHECK_LOGIN;
+  payload: string;
+}
+
 export type authActions =
   | Register
   | Login
   | LoginSuccess
   | LoginFailure
-  | Logout;
+  | Logout
+  | CheckLogin;

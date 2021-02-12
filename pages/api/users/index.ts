@@ -18,19 +18,13 @@ import { User } from "../../../interfaces/module/auth/auth.interface";
 
 // export default handler
 
-export const register = async (user: User) => {
-  const users = await client.post("/user", { user }).then((res) => {
-    return res;
-  });
-  return users;
-};
+export const register = async (user: User) =>
+  await client.post("/user", { user });
 
-export const login = async (uid: string) => {
-  return await client.post("/login", { uid });
-};
+export const login = async (uid: string) =>
+  await client.post("/login", { uid });
 
-export const getUsers = async () =>
-  await client.get("/users").then((res) => {
-    console.log("res: ", res);
-    return res;
-  });
+export const getUsers = async () => await client.get("/users");
+
+export const check = async (token: string) =>
+  await client.post("http://localhost:8080/check", { token });

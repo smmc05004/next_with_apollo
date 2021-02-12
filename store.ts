@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, Store, compose } from "redux";
+import { createStore, applyMiddleware, Store, compose, AnyAction } from "redux";
 import { MakeStore, createWrapper, Context } from "next-redux-wrapper";
 import createSagaMiddleware, { Task } from "redux-saga";
 import rootReducer, { rootSaga } from "./modules";
@@ -6,7 +6,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import logger from "redux-logger";
 import { RootStateInterface } from "./interfaces/rootState";
 
-export interface SagaStore extends Store {
+export interface SagaStore extends Store<RootStateInterface, AnyAction> {
   sagaTask?: Task;
 }
 

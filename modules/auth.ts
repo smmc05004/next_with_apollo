@@ -6,11 +6,16 @@ import {
   LoginSuccess,
   LoginFailure,
   Logout,
+  CheckLogin,
 } from "../interfaces/module/auth/authact.interface";
 import { authState } from "../interfaces/module/auth/auth.interface";
 import { User } from "../interfaces/module/auth/auth.interface";
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as authAPI from "../pages/api/users";
+
+interface checkIner {
+  token: string;
+}
 
 interface uidInter {
   uid: string;
@@ -37,6 +42,11 @@ const loginFailure = (): LoginFailure => ({
 
 export const logout = (): Logout => ({
   type: authActionTypes.LOGOUT,
+});
+
+export const checkLogin = ({ token }: checkIner): CheckLogin => ({
+  type: authActionTypes.CHECK_LOGIN,
+  payload: token,
 });
 
 const initialState: authState = {
@@ -70,14 +80,28 @@ function* loginSaga(action: any) {
   }
 }
 
+function* checkLoginSaga(action: any) {
+  const { payload } = action;
+
+  if (!payload) return;
+  const token = payload;
+  const checkRes = yield call(authAPI.check, token);
+
+  if (checkRes.status === 200) {
+    const uid = checkRes.data.data;
+    yield put(loginSuccess({ uid }));
+  } else {
+    yield put(loginFailure());
+  }
+}
+
 export function* authSaga() {
   yield takeLatest(authActionTypes.REGISTER, registerSaga);
   yield takeLatest(authActionTypes.LOGIN, loginSaga);
+  yield takeLatest(authActionTypes.CHECK_LOGIN, checkLoginSaga);
 }
 
 const auth = (state = initialState, action: authActions): authState => {
-  // console.log("auth action: ", action);
-
   switch (action.type) {
     case authActionTypes.REGISTER:
       return {
