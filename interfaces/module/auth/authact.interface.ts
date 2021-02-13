@@ -6,6 +6,8 @@ export enum authActionTypes {
   LOGIN_SUCCESS = "LOGIN_SUCCESS",
   LOGIN_FAILURE = "LOGIN_FAILURE",
   LOGOUT = "LOGOUT",
+  LOGOUT_SUCCESS = "LOGOUT_SUCCESS",
+  LOGOUT_FAILURE = "LOGOUT_FAILURE",
   CHECK_LOGIN = "CHECK_LOGIN",
 }
 
@@ -32,6 +34,14 @@ export interface Logout {
   type: authActionTypes.LOGOUT;
 }
 
+export interface LogoutSuccess {
+  type: authActionTypes.LOGOUT_SUCCESS;
+}
+
+export interface LogoutFailure {
+  type: authActionTypes.LOGOUT_FAILURE;
+}
+
 export interface CheckLogin {
   type: authActionTypes.CHECK_LOGIN;
   payload: string;
@@ -43,4 +53,6 @@ export type authActions =
   | LoginSuccess
   | LoginFailure
   | Logout
+  | LogoutSuccess
+  | LogoutFailure
   | CheckLogin;

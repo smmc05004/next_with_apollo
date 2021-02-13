@@ -28,3 +28,8 @@ export const getUsers = async () => await client.get("/users");
 
 export const check = async (token: string) =>
   await client.post("http://localhost:8080/check", { token });
+
+export const logout = async (uid: string) => {
+  console.log("api uid: ", uid);
+  return await client.post("/logout", { uid });
+};

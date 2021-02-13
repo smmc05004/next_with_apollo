@@ -45,12 +45,12 @@ nextapp
     //   })
     // );
 
-    app.get("/users", (req: Request, res: Response) => {
-      connection.query("SELECT * FROM user", (error, rows) => {
-        if (error) throw error;
-        res.send(rows);
-      });
-    });
+    // app.get("/users", (req: Request, res: Response) => {
+    //   connection.query("SELECT * FROM user", (error, rows) => {
+    //     if (error) throw error;
+    //     res.send(rows);
+    //   });
+    // });
 
     app.post("/user", (req: Request, res: Response) => {
       const user = req.body.user;
@@ -139,6 +139,14 @@ nextapp
         }
         res.send(veriRes);
       });
+    });
+
+    app.post("/logout", (req: Request, res: Response) => {
+      console.log("logtout start");
+      const userId = req.body.uid;
+      console.log("userId: ", userId);
+      res.clearCookie("my-cookie");
+      res.send({ status: 200 });
     });
 
     app.post("/post", (req: Request, res: Response) => {
