@@ -1,4 +1,11 @@
 import { DbPost } from '../../interfaces/module/post/post.interface';
+import styled from 'styled-components';
+
+const TodoTr = styled.tr`
+  &:nth-child(2n) {
+    background-color: lightgray;
+  }
+`;
 
 interface itemInterface {
   post: DbPost;
@@ -9,7 +16,7 @@ const PostItem = ({ post, onComplete }: itemInterface) => {
   const isComplete = post.complete;
 
   return (
-    <tr>
+    <TodoTr>
       <td>{post.deadline}</td>
       <td>{post.contents}</td>
       <td>{post.complete}</td>
@@ -20,7 +27,7 @@ const PostItem = ({ post, onComplete }: itemInterface) => {
         }
       </button>
         </td>
-    </tr>
+    </TodoTr>
   )
 }
 
