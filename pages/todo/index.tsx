@@ -12,6 +12,16 @@ import wrapper from '../../store';
 import { checkLogin } from '../../modules/auth';
 import { END } from 'redux-saga';
 
+const PostWrapper = styled.div`
+  width: 300px;
+  margin: 0 auto;
+`;
+
+const BtnWrapper = styled.div`
+  text-align: right;
+  padding-top: 20px;
+`;
+
 const Container = styled.div`
   position: fixed;
   top: 50%;
@@ -25,12 +35,12 @@ const Container = styled.div`
   background-color: white;
 `;
 
-const BtnWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 10px;
-`;
+// const BtnWrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   padding-top: 10px;
+// `;
 
 interface postProps {
   user: User | null,
@@ -91,6 +101,8 @@ const Todo = () => {
       };
 
       dispatch(postRequest({ post }));
+
+      setOpen(false);
     }
   }
 
@@ -130,12 +142,6 @@ const Todo = () => {
     </Container>
   );
   
-  // const items = posts.map((post, index) => {
-  //   return (
-  //     <PostItem post={post} key={index}/>
-  //   )
-  // });
-
   useEffect(() => {
     if (user) {
       dispatch(postsRequest({id: user.id}));
@@ -143,12 +149,12 @@ const Todo = () => {
   }, []);
 
   return (
-    <div>
+    <PostWrapper>
       <PostList posts={posts} onComplete={onComplete}/>
 
-      <div>
+      <BtnWrapper>
         <Button variant="contained" color="primary" size="small" disableElevation onClick={onShow}>추가</Button>
-      </div>
+      </BtnWrapper>
 
       <Modal
           open={open}
@@ -158,7 +164,7 @@ const Todo = () => {
         >
         {body}
       </Modal>
-    </div>
+    </PostWrapper>
   )
 }
 

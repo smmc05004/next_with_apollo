@@ -2,10 +2,6 @@ import client from "../client";
 import { Post } from "../../../interfaces/module/post/post.interface";
 import qs from "qs";
 
-// interface apiParam {
-//   post: Post
-// }
-
 interface doneParam {
   id: number,
   status: string
@@ -22,7 +18,4 @@ export const getPosts = async (id: string) => {
   return await client.get(`/posts?${queryString}`);
 };
 
-export const done = async( { id, status }: doneParam) => {
-  console.log(id, status);
-  return await client.put('/post', { id, status });
-}
+export const done = async( { id, status }: doneParam) => await client.put('/post', { id, status });

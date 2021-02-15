@@ -14,6 +14,7 @@ import {
 import { postState, Post, doneParam, DbPost } from "../interfaces/module/post/post.interface";
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import * as postAPI from "../pages/api/post";
+import { loadingEnd, loadingStart } from './loading';
 
 interface postParam {
   post: Post;
@@ -103,8 +104,22 @@ function* addPostSaga(action: Post_request) {
   if (!payload) return;
 
   const addRes = yield call(postAPI.addPost, payload);
+  yield put(loadingStart());
   if (addRes.status === 200) {
     yield put(postSuccess({ post: payload }));
+
+    const states = yield select();
+    const id = states.auth.user.id;
+
+    const getRes = yield call(postAPI.getPosts, id);
+    if (getRes.status === 200) {
+      yield put(loadingEnd());
+      
+      const posts = getRes.data;
+      yield put(postsSuccess({ posts }));
+    } else {
+      yield put(postsFailure());
+    }
   } else {
     yield put(postFailure());
   }
