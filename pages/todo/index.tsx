@@ -2,11 +2,15 @@ import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, TextField  } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { postRequest, postsRequest } from '../../modules/post';
+import { doneRequest, postRequest, postsRequest } from '../../modules/post';
 import { RootStateInterface } from '../../interfaces/rootState';
 import { User } from '../../interfaces/module/auth/auth.interface';
-import { Post } from '../../interfaces/module/post/post.interface';
-import { postItem } from '../../components';
+import { DbPost } from '../../interfaces/module/post/post.interface';
+import { PostList } from '../../components';
+import { GetServerSideProps } from 'next';
+import wrapper from '../../store';
+import { checkLogin } from '../../modules/auth';
+import { END } from 'redux-saga';
 
 const Container = styled.div`
   position: fixed;
@@ -31,7 +35,7 @@ const BtnWrapper = styled.div`
 interface postProps {
   user: User | null,
   isLogined: boolean,
-  posts: Post[],
+  posts: DbPost[],
 }
 
 const Todo = () => {
@@ -44,6 +48,12 @@ const Todo = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [todo, setTodo] = useState<string>('');
   const [dateVal, setDateVal] = useState<string>('');
+
+  const onComplete = (e: React.MouseEvent<HTMLButtonElement>, post: DbPost) => {
+    const { post_id, complete } = post;
+
+    dispatch(doneRequest({ id: post_id, status: complete}));
+  }
 
   const onShow = () => {
     setTodo('');
@@ -76,9 +86,10 @@ const Todo = () => {
       const post = {
         contents: todo,
         deadline: dateVal,
-        complete: false,
+        complete: 'n',
         userId: user.id,
       };
+
       dispatch(postRequest({ post }));
     }
   }
@@ -119,37 +130,21 @@ const Todo = () => {
     </Container>
   );
   
-  const items = posts.map((post, index) => {
-      return (
-        <tr key={index}>
-          <td>{post.deadline}</td>
-          <td>{post.contents}</td>
-          <td>{post.complete}</td>
-        </tr>
-      )
-  });
+  // const items = posts.map((post, index) => {
+  //   return (
+  //     <PostItem post={post} key={index}/>
+  //   )
+  // });
 
   useEffect(() => {
     if (user) {
       dispatch(postsRequest({id: user.id}));
     }
   }, []);
+
   return (
     <div>
-      <h1>POST</h1>
-
-      <table>
-        <thead>
-          <tr>
-            <th>날짜</th>
-            <th>할일</th>
-            <th>완료여부</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items}
-        </tbody>
-      </table>
+      <PostList posts={posts} onComplete={onComplete}/>
 
       <div>
         <Button variant="contained" color="primary" size="small" disableElevation onClick={onShow}>추가</Button>
@@ -166,5 +161,22 @@ const Todo = () => {
     </div>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  async (context: any) => {
+    const { req } = context;
+
+    if (req.cookies) {
+      // console.log("coockie: ", req.cookies["my-cookie"]);
+      const token = req.cookies["my-cookie"];
+      context.store.dispatch(checkLogin({ token }));
+    } else {
+      console.log("로그인 필요");
+    }
+
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+  }
+);
 
 export default Todo;

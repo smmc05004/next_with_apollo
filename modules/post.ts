@@ -7,9 +7,12 @@ import {
   Posts_request,
   Posts_success,
   Posts_failure,
+  Done_request,
+  Done_success,
+  Done_failure,
 } from "../interfaces/module/post/postact.interface";
-import { postState, Post } from "../interfaces/module/post/post.interface";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { postState, Post, doneParam, DbPost } from "../interfaces/module/post/post.interface";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import * as postAPI from "../pages/api/post";
 
 interface postParam {
@@ -17,7 +20,7 @@ interface postParam {
 }
 
 interface postsParam {
-  posts: Post[];
+  posts: DbPost[];
 }
 
 interface postsRequestParam {
@@ -71,6 +74,16 @@ export const postsFailure = (): Posts_failure => {
   };
 };
 
+export const doneRequest = ({ id, status }: doneParam ) : Done_request => {
+  return {
+    type: postActionTypes.DONE_REQUEST,
+    payload: {
+      id,
+      status
+    }
+  }
+}
+
 //  --------------------------------------- post init state  ---------------------------------------
 const initialState: postState = {
   posts: [],
@@ -81,6 +94,7 @@ const initialState: postState = {
 export function* postSaga() {
   yield takeLatest(postActionTypes.POST_REQUEST, addPostSaga);
   yield takeLatest(postActionTypes.POSTS_REQUEST, getPostsSaga);
+  yield takeLatest(postActionTypes.DONE_REQUEST, doneSaga);
 }
 
 function* addPostSaga(action: Post_request) {
@@ -106,6 +120,28 @@ function* getPostsSaga(action: Posts_request) {
     yield put(postsSuccess({ posts }));
   } else {
     yield put(postsFailure());
+  }
+}
+
+function* doneSaga(action: Done_request) {
+  const { payload } = action;
+  if (!payload) return;
+
+  const updateRes = yield call(postAPI.done, payload);
+  if (updateRes.status === 200) {
+
+    const states = yield select();
+    const id = states.auth.user.id;
+
+    const getRes = yield call(postAPI.getPosts, id);
+    if (getRes.status === 200) {
+      const posts = getRes.data;
+      yield put(postsSuccess({ posts }));
+    } else {
+      yield put(postsFailure());
+    }
+  } else {
+    console.log('update failed');
   }
 }
 

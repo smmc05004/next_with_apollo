@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
   user: "user1",
   password: "zxcv1234",
   database: "test",
-  port: 3306,
+  port: 3307,
   debug: true,
 });
 
@@ -183,6 +183,33 @@ nextapp
         if (err) throw err;
 
         res.send(queryRes);
+      });
+    });
+
+    app.put('/post', (req: Request, res: Response) => {
+      const { id, status } = req.body;
+
+      let completeFlag = 'y';
+
+      if (status === 'y') {
+        completeFlag = 'n';
+      }
+
+      const updateQuery = `
+      UPDATE
+        post
+      SET
+        complete = '${completeFlag}'
+      WHERE
+        (post_id = '${id}')
+      `;
+
+      connection.query(updateQuery, (err, queryRes) => {
+        if (err) throw err;
+
+        if (queryRes) {
+          res.send({status: 200});
+        }
       });
     });
 

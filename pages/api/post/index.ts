@@ -6,6 +6,11 @@ import qs from "qs";
 //   post: Post
 // }
 
+interface doneParam {
+  id: number,
+  status: string
+}
+
 export const addPost = async (post: Post) =>
   await client.post("/post", { post });
 
@@ -16,3 +21,8 @@ export const getPosts = async (id: string) => {
 
   return await client.get(`/posts?${queryString}`);
 };
+
+export const done = async( { id, status }: doneParam) => {
+  console.log(id, status);
+  return await client.put('/post', { id, status });
+}

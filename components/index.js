@@ -10,6 +10,6 @@ import Loading from './loading';
 
 
 // post
-import postItem from './post/postItem';
+import PostList from './post/postList';
 
-export { Header, Footer, GoogleAuth, Loading, postItem };
+export { Header, Footer, GoogleAuth, Loading, PostList };

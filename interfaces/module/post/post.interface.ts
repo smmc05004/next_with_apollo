@@ -1,12 +1,25 @@
 export interface Post {
   contents: string,
   deadline: string,
-  complete: boolean,
+  complete: string,
   userId: string,
 }
 
+export interface DbPost {
+  post_id: number
+  contents: string
+  deadline: string
+  complete: string
+  user_id: string
+}
+
 export interface postState {
-  posts: Post[]
+  posts: DbPost[]
   post: Post | null
+}
+
+export interface doneParam {
+  id: number
+  status: string
 }
 
