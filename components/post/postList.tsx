@@ -41,8 +41,8 @@ const PostList = ({ posts, onComplete }: listParam) => {
 
       <TodoTable>
         <colgroup>
-        <col width={10} />
-        <col width={55} />
+        <col width={15} />
+        <col width={50} />
         <col width={30} />
         <col width={5} />
         </colgroup>
