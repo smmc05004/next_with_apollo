@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { connection } from '../connection';
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
+import { getToken, verifyToken } from './jwt';
 
 const AuthRouter = express.Router();
 
@@ -52,14 +53,8 @@ AuthRouter.post("/login", (req: Request, res: Response) => {
 
   connection.query(selectQuery, (err, queryRes) => {
     if (err) throw err;
-
-    const token = jwt.sign(
-      {
-        exp: Math.floor(Date.now() / 1000) + 604800000,
-        data: queryRes[0].user_id,
-      },
-      "secret"
-    );
+    
+    const token = getToken(queryRes);
 
     const expireDay = new Date(Date.now() + 604800000);
 
@@ -71,35 +66,36 @@ AuthRouter.post("/login", (req: Request, res: Response) => {
 AuthRouter.post("/check", (req: Request, res: Response) => {
   const token = req.body.token;
 
-  const veriRes: any = jwt.verify(token, "secret");
-
-  const user_id = veriRes.data;
-  const selectQuery = `
-  SELECT
-    * 
-  FROM 
-    user 
-  WHERE 
-    user_id = ${user_id}
-  `;
-
-  connection.query(selectQuery, (err, queryRes) => {
-    if (err) throw err;
-
-    // const expireDay = new Date(Date.now() + expireTime);
-    if (queryRes && queryRes[0]) {
-      console.log("queryRes: ", queryRes);
-    }
-    res.send(veriRes);
-  });
+  if (token) {
+    const veriRes: any = verifyToken(token);
+  
+    const user_id = veriRes.data;
+  
+    const selectQuery = `
+    SELECT
+      * 
+    FROM 
+      user 
+    WHERE 
+      user_id = ${user_id}
+    `;
+  
+    connection.query(selectQuery, (err, queryRes) => {
+      if (err) throw err;
+  
+      if (queryRes && queryRes[0]) {
+  
+        res.send(veriRes);
+      }
+    });
+  }
 });
 
 AuthRouter.post("/logout", (req: Request, res: Response) => {
-  console.log("logtout start");
   const userId = req.body.uid;
-  console.log("userId: ", userId);
+
   res.clearCookie("my-cookie");
-  res.send({ status: 200 });
+  res.send({ status: 200, details: `${userId} 로그아웃` });
 });
 
 
