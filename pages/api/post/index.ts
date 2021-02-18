@@ -8,14 +8,14 @@ interface doneParam {
 }
 
 export const addPost = async (post: Post) =>
-  await client.post("/post", { post });
+  await client.post("/api/post/post", { post });
 
 export const getPosts = async (id: string) => {
   const queryString = qs.stringify({
     id,
   });
 
-  return await client.get(`/posts?${queryString}`);
+  return await client.get(`/api/post/posts?${queryString}`);
 };
 
-export const done = async( { id, status }: doneParam) => await client.put('/post', { id, status });
+export const done = async( { id, status }: doneParam) => await client.put('/api/post/post', { id, status });
