@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { doneRequest, postRequest, postsRequest } from '../../modules/post';
 import { RootStateInterface } from '../../interfaces/rootState';
 import { User } from '../../interfaces/module/auth/auth.interface';
-import { DbPost } from '../../interfaces/module/post/post.interface';
+import { PostData } from '../../interfaces/module/post/post.interface';
 import { PostList } from '../../components';
 import { GetServerSideProps } from 'next';
 import wrapper from '../../store';
@@ -35,17 +35,10 @@ const Container = styled.div`
   background-color: white;
 `;
 
-// const BtnWrapper = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   padding-top: 10px;
-// `;
-
 interface postProps {
   user: User | null,
   isLogined: boolean,
-  posts: DbPost[],
+  posts: PostData[],
 }
 
 const Todo = () => {
@@ -59,10 +52,10 @@ const Todo = () => {
   const [todo, setTodo] = useState<string>('');
   const [dateVal, setDateVal] = useState<string>('');
 
-  const onComplete = (e: React.MouseEvent<HTMLButtonElement>, post: DbPost) => {
-    const { post_id, complete } = post;
+  const onComplete = (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => {
+    const { postId, complete } = post;
 
-    dispatch(doneRequest({ id: post_id, status: complete}));
+    dispatch(doneRequest({ id: postId, status: complete}));
   }
 
   const onShow = () => {

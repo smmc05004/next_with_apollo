@@ -11,7 +11,7 @@ import {
   Done_success,
   Done_failure,
 } from "../interfaces/module/post/postact.interface";
-import { postState, Post, doneParam, DbPost } from "../interfaces/module/post/post.interface";
+import { postState, Post, doneParam, PostData } from "../interfaces/module/post/post.interface";
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import * as postAPI from "../pages/api/post";
 import { loadingEnd, loadingStart } from './loading';
@@ -21,7 +21,7 @@ interface postParam {
 }
 
 interface postsParam {
-  posts: DbPost[];
+  posts: PostData[];
 }
 
 interface postsRequestParam {

@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
   user: "user1",
   password: "zxcv1234",
   database: "test",
-  port: 3306,
+  port: 3307,
   debug: true,
 });
 
@@ -171,7 +171,7 @@ nextapp
 
       const selectQuery = `
       SELECT
-        post_id, contents, deadline, complete, user_id
+        post_id as postId, contents, deadline, complete, user_id as userId
       FROM
         post
       WHERE

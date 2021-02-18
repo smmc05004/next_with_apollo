@@ -1,4 +1,4 @@
-import { Post, doneParam, DbPost } from './post.interface';
+import { Post, doneParam, PostData } from './post.interface';
 
 export enum postActionTypes {
   POST_REQUEST = 'POST_REQUEST',
@@ -35,7 +35,7 @@ export interface Posts_request {
 
 export interface Posts_success {
   type: postActionTypes.POSTS_SUCCESS;
-  posts: DbPost[]
+  posts: PostData[]
 }
 
 export interface Posts_failure {

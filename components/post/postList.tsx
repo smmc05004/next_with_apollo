@@ -1,4 +1,4 @@
-import { DbPost } from '../../interfaces/module/post/post.interface';
+import { PostData } from '../../interfaces/module/post/post.interface';
 import PostItem from './postItem';
 import styled from 'styled-components';
 
@@ -24,8 +24,8 @@ const TodoTbody = styled.tbody`
 `;
 
 interface listParam {
-  posts: DbPost[]
-  onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: DbPost) => void
+  posts: PostData[]
+  onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => void
 }
 
 const PostList = ({ posts, onComplete }: listParam) => {

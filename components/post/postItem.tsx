@@ -1,4 +1,4 @@
-import { DbPost } from '../../interfaces/module/post/post.interface';
+import { PostData } from '../../interfaces/module/post/post.interface';
 import styled from 'styled-components';
 
 const TodoTr = styled.tr`
@@ -8,8 +8,8 @@ const TodoTr = styled.tr`
 `;
 
 interface itemInterface {
-  post: DbPost;
-  onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: DbPost) => void
+  post: PostData;
+  onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => void
 }
 
 const PostItem = ({ post, onComplete }: itemInterface) => {
