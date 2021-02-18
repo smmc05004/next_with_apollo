@@ -55,7 +55,7 @@ AuthRouter.post("/login", (req: Request, res: Response) => {
     const sessionTime = Number(process.env.NEXT_PUBLIC_SESSION_TIME) || 0;
     const token = getToken(queryRes);
 
-    const expireDay = new Date(Date.now() + sessionTime;
+    const expireDay = new Date(Date.now() + sessionTime);
 
     res.cookie("my-cookie", token, { expires: expireDay });
     res.send(queryRes);
