@@ -1,6 +1,6 @@
 import express, {Request, Response} from 'express';
 import url from "url";
-import { connection } from '../connection';
+import { connection } from '../../db/connection';
 
 const postRouter = express.Router();
 
