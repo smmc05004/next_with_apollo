@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import { connection } from '../connection';
-// import jwt from "jsonwebtoken";
 import { getToken, verifyToken } from './jwt';
 
 const AuthRouter = express.Router();
@@ -53,10 +52,10 @@ AuthRouter.post("/login", (req: Request, res: Response) => {
 
   connection.query(selectQuery, (err, queryRes) => {
     if (err) throw err;
-    
+    const sessionTime = Number(process.env.NEXT_PUBLIC_SESSION_TIME) || 0;
     const token = getToken(queryRes);
 
-    const expireDay = new Date(Date.now() + 604800000);
+    const expireDay = new Date(Date.now() + sessionTime;
 
     res.cookie("my-cookie", token, { expires: expireDay });
     res.send(queryRes);

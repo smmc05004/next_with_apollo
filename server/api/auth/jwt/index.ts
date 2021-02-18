@@ -1,19 +1,25 @@
 import jwt from "jsonwebtoken";
 
+
 function getToken(queryRes: any) {
+  const tokenSecret = process.env.NEXT_PUBLIC_TOKEN_SECRET || '';
+  const sessionTime = Number(process.env.NEXT_PUBLIC_SESSION_TIME) || 0;
+
   const token = jwt.sign(
     {
-      exp: Math.floor(Date.now() / 1000) + 604800000,
+      exp: Math.floor(Date.now() / 1000) + sessionTime,
       data: queryRes[0].user_id,
     },
-    "secret"
+    tokenSecret
   );
 
   return token;
 }
 
 function verifyToken(token: any) {
-  const verifyRes = jwt.verify(token, "secret");
+  const tokenSecret = process.env.NEXT_PUBLIC_TOKEN_SECRET || '';
+
+  const verifyRes = jwt.verify(token, tokenSecret);
 
   return verifyRes;
 }

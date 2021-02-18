@@ -18,6 +18,8 @@ import { User } from "../../../interfaces/module/auth/auth.interface";
 
 // export default handler
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+
 export const register = async (user: User) =>
   await client.post("/api/auth/user", { user });
 
@@ -27,7 +29,7 @@ export const login = async (uid: string) =>
 export const getUsers = async () => await client.get("/users");
 
 export const check = async (token: string) =>
-  await client.post("http://localhost:8080/api/auth/check", { token });
+  await client.post(`${baseUrl}/api/auth/check`, { token });
 
 export const logout = async (uid: string) => {
   console.log("api uid: ", uid);
