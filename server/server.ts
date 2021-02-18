@@ -3,20 +3,20 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import express from "express";
 
-const apiRouter = require('./api');
-
 dotenv.config();
 
 const dev = process.env.NODE_ENV !== "production";
 const nextapp = next({ dev });
 const handle = nextapp.getRequestHandler();
 
-const port = 8080;
+const apiRouter = require('./api');
 
 nextapp
   .prepare()
   .then(() => {
+    const port = 8080;
     const app = express();
+
     app.use(morgan("dev"));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 
+const tokenSecret = process.env.NEXT_PUBLIC_TOKEN_SECRET || '';
+const sessionTime = Number(process.env.NEXT_PUBLIC_SESSION_TIME) || 0;
 
 function getToken(queryRes: any) {
-  const tokenSecret = process.env.NEXT_PUBLIC_TOKEN_SECRET || '';
-  const sessionTime = Number(process.env.NEXT_PUBLIC_SESSION_TIME) || 0;
 
   const token = jwt.sign(
     {
@@ -17,7 +17,7 @@ function getToken(queryRes: any) {
 }
 
 function verifyToken(token: any) {
-  const tokenSecret = process.env.NEXT_PUBLIC_TOKEN_SECRET || '';
+  // const tokenSecret = process.env.NEXT_PUBLIC_TOKEN_SECRET || '';
 
   const verifyRes = jwt.verify(token, tokenSecret);
 
