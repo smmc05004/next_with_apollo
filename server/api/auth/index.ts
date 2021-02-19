@@ -6,56 +6,53 @@ import { getUserSql, addUserSql } from '../../db/query';
 
 const AuthRouter = express.Router();
 
-AuthRouter.post("/user", async (req: Request, res: Response) => {
+AuthRouter.post("/user", (req: Request, res: Response) => {
   const user = req.body.user;
   const newName = user.name.replace(/(\s*)/g, "");
   const selectQuery = getUserSql({userId: user.id});
   const insertQuery = addUserSql({userId: user.id, newName: newName});
 
-  const checkQueryResult = await connection.query(selectQuery, (selectErr: mysql.MysqlError, selectRes: any): mysql.queryCallback => {
+  connection.query(selectQuery, (selectErr: mysql.MysqlError, selectRes: any) => {
     if (selectErr) throw selectErr;
-
-    return selectRes;
+    
+    if (selectRes) {
+      connection.query(insertQuery, (insertErr: mysql.MysqlError, insertRes: any) => {
+        if (insertErr) throw insertErr;
+  
+        if (insertRes) {
+          res.send(insertRes);
+        }
+      });
+    } else {
+      res.send({ status: 500, details: "aleady exists" });
+    };
   });
-
-  if (checkQueryResult) {
-    const insertQueryResult = await connection.query(insertQuery, (insertErr: mysql.MysqlError, insertRes: any): mysql.queryCallback => {
-      if (insertErr) throw insertErr;
-
-      return insertRes;
-    });
-    if (insertQueryResult) {
-      console.log('insertQueryResult: ', JSON.stringify(insertQueryResult));
-      res.send(insertQueryResult);
-    }
-  } else {
-    res.send({ status: 500, details: "aleady exists" });
-  };
-
 });
 
-AuthRouter.post("/login", async (req: Request, res: Response) => {
+AuthRouter.post("/login", (req: Request, res: Response) => {
   const uid = req.body.uid;
-  const selectQuery = getUserSql(uid);
+  const selectQuery = getUserSql({userId: uid});
 
-  const queryResult = await connection.query(selectQuery, (err: mysql.MysqlError, queryRes: any): mysql.queryCallback => {
+  connection.query(selectQuery, (err: mysql.MysqlError, queryRes: any) => {
     if (err) throw err;
-    const sessionTime = Number(process.env.NEXT_PUBLIC_SESSION_TIME) || 0;
-    const token = getToken(queryRes);
 
-    const expireDay = new Date(Date.now() + sessionTime);
-
-    res.cookie("my-cookie", token, { expires: expireDay });
-
-    return queryRes;
+    if (queryRes) {
+      const sessionTime = Number(process.env.NEXT_PUBLIC_SESSION_TIME) || 0;
+      const token = getToken(queryRes);
+  
+      const expireDay = new Date(Date.now() + sessionTime);
+  
+      res.cookie("my-cookie", token, { expires: expireDay });
+  
+      if (queryRes) {
+        res.send(queryRes);
+      }
+    }
   });
 
-  if (queryResult) {
-    res.send(queryResult);
-  }
 });
 
-AuthRouter.post("/check", async (req: Request, res: Response) => {
+AuthRouter.post("/check", (req: Request, res: Response) => {
   const token = req.body.token;
 
   if (token) {
@@ -63,20 +60,14 @@ AuthRouter.post("/check", async (req: Request, res: Response) => {
     const user_id = veriRes.data;
     const selectQuery = getUserSql({userId: user_id});
   
-    const queryResult = await connection.query(selectQuery, (err: mysql.MysqlError, queryRes: any): mysql.queryCallback => {
-
+    connection.query(selectQuery, (err: mysql.MysqlError, queryRes: any) => {
       if (err) throw err;
   
       if (queryRes) {
-        return queryRes;
-      } else {
-        return err;
+        res.send(veriRes);
       }
     });
 
-    if (queryResult) {
-      res.send(veriRes);
-    }
   }
 });
 
