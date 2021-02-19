@@ -1,5 +1,12 @@
-export const getUserSql = ({ userId }) => {
+interface userSqlProps {
+  userId: string,
+}
 
+interface addUserSqlProps extends userSqlProps {
+  newName: string,
+}
+
+export const getUserSql = ({ userId }: userSqlProps) => {
   const query = `
     SELECT
       * 
@@ -8,12 +15,11 @@ export const getUserSql = ({ userId }) => {
     WHERE 
       user_id = '${userId}'
     `;
-  console.log('query: ', query);
 
   return query;
 };
 
-export const addUserSql = ({ userId, newName }) => {
+export const addUserSql = ({ userId, newName }: addUserSqlProps) => {
   const query = `
     INSERT INTO user 
       (user_id, user_name)

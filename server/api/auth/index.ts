@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import mysql from 'mysql';
 import { connection } from '../../db/connection';
 import { getToken, verifyToken } from './jwt';
-import { getUserSql, addUserSql } from '../../db/query';
+import { getUserSql, addUserSql } from '../../db/query/auth';
 
 const AuthRouter = express.Router();
 
