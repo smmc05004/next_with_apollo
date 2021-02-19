@@ -7,12 +7,12 @@ const TodoTr = styled.tr`
   }
 `;
 
-interface itemInterface {
+interface PostItemProps {
   post: PostData;
   onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => void
 }
 
-const PostItem = ({ post, onComplete }: itemInterface) => {
+const PostItem = ({ post, onComplete }: PostItemProps) => {
   const isComplete = post.complete;
 
   return (

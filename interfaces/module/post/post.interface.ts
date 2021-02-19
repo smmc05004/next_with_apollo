@@ -8,16 +8,12 @@ export interface Post {
 export interface PostData extends Post {
   postId: number
 }
-// export interface DbPost {
-//   post_id: number
-//   contents: string
-//   deadline: string
-//   complete: string
-//   user_id: string
-// }
 
-export interface postState {
+export interface Posts {
   posts: PostData[]
+}
+
+export interface postState extends Posts {
   post: Post | null
 }
 

@@ -1,4 +1,4 @@
-import { PostData } from '../../interfaces/module/post/post.interface';
+import { PostData, Posts } from '../../interfaces/module/post/post.interface';
 import PostItem from './postItem';
 import styled from 'styled-components';
 
@@ -23,12 +23,11 @@ const TodoTbody = styled.tbody`
   font-weight: 300;
 `;
 
-interface listParam {
-  posts: PostData[]
+interface PostListProps extends Posts {
   onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => void
 }
 
-const PostList = ({ posts, onComplete }: listParam) => {
+const PostList = ({ posts, onComplete }: PostListProps) => {
   const items = posts.map((post, index) => {
     return (
       <PostItem post={post} key={index} onComplete={onComplete} />

@@ -4,7 +4,7 @@ import { Button, Modal, TextField  } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { doneRequest, postRequest, postsRequest } from '../../modules/post';
 import { RootStateInterface } from '../../interfaces/rootState';
-import { User } from '../../interfaces/module/auth/auth.interface';
+import { User, authState } from '../../interfaces/module/auth/auth.interface';
 import { PostData } from '../../interfaces/module/post/post.interface';
 import { PostList } from '../../components';
 import { GetServerSideProps } from 'next';
@@ -35,15 +35,13 @@ const Container = styled.div`
   background-color: white;
 `;
 
-interface postProps {
-  user: User | null,
-  isLogined: boolean,
+interface PostVars extends authState {
   posts: PostData[],
 }
 
 const Post = () => {
   const dispatch = useDispatch();
-  const { user, isLogined, posts }: postProps = useSelector((state: RootStateInterface) =>({
+  const { user, isLogined, posts }: PostVars = useSelector((state: RootStateInterface) =>({
     user: state.auth.user,
     isLogined: state.auth.isLogined,
     posts: state.post.posts,

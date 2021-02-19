@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import {
-  GoogleLogin,
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-} from "react-google-login";
+import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../modules/auth";
+import { AuthType } from '../../interfaces/module/auth/auth.interface';
 
 const AuthBtn = styled.button`
   background-color: white;
@@ -13,23 +10,16 @@ const AuthBtn = styled.button`
   cursor: pointer;
   padding: 5px;
 `;
-type AuthAction = "login" | "register";
-
-interface AuthType {
-  authType: AuthAction;
-}
 
 const GoogleAuth = ({ authType }: AuthType) => {
   const dispatch = useDispatch();
 
   const onLogin = (
-    // response: GoogleLoginResponse | GoogleLoginResponseOffline
     response: any
   ) => {
-    console.log("response: ", response);
     const profile = response.profileObj;
     const id = profile.googleId;
-    dispatch(login(id));
+    dispatch(login({ id }));
   };
 
   const onRegister = (response: any) => {

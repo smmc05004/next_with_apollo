@@ -6,17 +6,14 @@ import LoadingBtn from "../components/loadingBtn";
 import { RootStateInterface } from "../interfaces/rootState";
 import wrapper from "../store";
 import { checkLogin } from "../modules/auth";
+import { loadingState } from '../interfaces/module/loading/loading.interface';
 
-interface HomeVars {
-  loading: boolean;
-}
+interface HomeVars extends loadingState {}
 
 const Home = () => {
   const { loading }: HomeVars = useSelector((state: RootStateInterface) => ({
     loading: state.loading.loading,
   }));
-
-  // console.log("loading: ", loading);
 
   return (
     <div>

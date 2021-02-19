@@ -1,8 +1,8 @@
-import styled from "styled-components";
 import Link from "next/link";
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 import GoogleAuth from "../oauth/googleAuth";
 import { RootStateInterface } from "../../interfaces/rootState";
-import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../modules/auth";
 
 const Wrapper = styled.div`
@@ -54,7 +54,7 @@ const Header = () => {
       </MenuWrapper>
       <MenuWrapper>
         {isLogined === true ? (
-          <LogoutBtn onClick={onLogout}>로그아웃</LogoutBtn>
+          <LogoutBtn onClick={ onLogout }>로그아웃</LogoutBtn>
         ) : (
           <>
             <GoogleAuth authType="login" />
