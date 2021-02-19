@@ -19,3 +19,5 @@ export const getPosts = async (id: string) => {
 };
 
 export const done = async( { id, status }: doneParam) => await client.put('/api/post/post', { id, status });
+
+export const getStock = async() => await client.get('/stocks')

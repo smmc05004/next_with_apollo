@@ -41,7 +41,7 @@ interface postProps {
   posts: PostData[],
 }
 
-const Todo = () => {
+const Post = () => {
   const dispatch = useDispatch();
   const { user, isLogined, posts }: postProps = useSelector((state: RootStateInterface) =>({
     user: state.auth.user,
@@ -178,4 +178,4 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   }
 );
 
-export default Todo;
+export default Post;
