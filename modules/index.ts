@@ -4,6 +4,7 @@ import { all } from "redux-saga/effects";
 import loading from "./loading";
 import auth, { authSaga } from "./auth";
 import post, { postSaga } from "./post";
+import stock, { stockSaga } from "./stock";
 
 import { RootStateInterface } from "../interfaces/rootState";
 
@@ -11,7 +12,8 @@ const rootReducer = (
   state: RootStateInterface = {
     loading: { loading: false },
     auth: { user: null, isLogined: false },
-    post: { posts: [], post: null },
+    post: { post: null, posts: [] },
+    stock: { stock: null, stocks: [] },
   },
   action: AnyAction
 ): RootStateInterface => {
@@ -23,13 +25,14 @@ const rootReducer = (
       loading,
       auth,
       post,
+      stock,
     });
     return combineReducer(state, action);
   }
 };
 
 export function* rootSaga() {
-  yield all([authSaga(), postSaga()]);
+  yield all([authSaga(), postSaga(), stockSaga()]);
 }
 
 export type RootState = ReturnType<typeof rootReducer>;

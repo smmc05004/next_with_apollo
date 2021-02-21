@@ -11,10 +11,15 @@ import {
   Done_success,
   Done_failure,
 } from "../interfaces/module/post/postact.interface";
-import { postState, Post, doneParam, PostData } from "../interfaces/module/post/post.interface";
+import {
+  postState,
+  Post,
+  doneParam,
+  PostData,
+} from "../interfaces/module/post/post.interface";
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import * as postAPI from "../pages/api/post";
-import { loadingEnd, loadingStart } from './loading';
+import { loadingEnd, loadingStart } from "./loading";
 
 interface postParam {
   post: Post;
@@ -75,15 +80,15 @@ export const postsFailure = (): Posts_failure => {
   };
 };
 
-export const doneRequest = ({ id, status }: doneParam ) : Done_request => {
+export const doneRequest = ({ id, status }: doneParam): Done_request => {
   return {
     type: postActionTypes.DONE_REQUEST,
     payload: {
       id,
-      status
-    }
-  }
-}
+      status,
+    },
+  };
+};
 
 //  --------------------------------------- post init state  ---------------------------------------
 const initialState: postState = {
@@ -114,7 +119,7 @@ function* addPostSaga(action: Post_request) {
     const getRes = yield call(postAPI.getPosts, id);
     if (getRes.status === 200) {
       yield put(loadingEnd());
-      
+
       const posts = getRes.data;
       yield put(postsSuccess({ posts }));
     } else {
@@ -144,7 +149,6 @@ function* doneSaga(action: Done_request) {
 
   const updateRes = yield call(postAPI.done, payload);
   if (updateRes.status === 200) {
-
     const states = yield select();
     const id = states.auth.user.id;
 
@@ -156,7 +160,7 @@ function* doneSaga(action: Done_request) {
       yield put(postsFailure());
     }
   } else {
-    console.log('update failed');
+    console.log("update failed");
   }
 }
 

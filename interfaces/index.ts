@@ -7,3 +7,6 @@ export * from "./module/auth/authact.interface";
 // post
 export * from "./module/post/post.interface";
 export * from "./module/post/postact.interface";
+// stock
+export * from "./module/stock/stock.interface";
+export * from "./module/stock/stockact.interface";
