@@ -9,4 +9,17 @@ const addStockQuery = ({ stockCode, stockName }: Stock) => {
     `;
   return query;
 };
-export { addStockQuery };
+
+const selectStocksQuery = () => {
+  const query = `
+    SELECT
+      stock_num as stockNum
+      , stock_code as stockCode
+      , stock_name as stockName
+    FROM
+      stock
+  `;
+  return query;
+};
+
+export { addStockQuery, selectStocksQuery };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { stockRequest } from "../../modules/stock";
+import { stockRequest, stocksRequest } from "../../modules/stock";
 import { Modal, Button } from '../../components';
 import styled from 'styled-components';
 
@@ -29,6 +29,7 @@ const Stock = () => {
 
   useEffect(() => {
     setOpen(false);
+    dispatch(stocksRequest());
   }, []);
 
   return (

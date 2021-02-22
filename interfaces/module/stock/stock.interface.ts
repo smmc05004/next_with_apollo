@@ -1,10 +1,10 @@
 export interface Stock {
-  stockCode: string;
-  stockName: string;
+  stockName?: string;
+  stockCode?: string;
 }
 
 export interface StockData extends Stock {
-  stockNum: number;
+  stockNum?: number;
 }
 
 export interface Stocks {

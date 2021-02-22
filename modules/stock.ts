@@ -5,17 +5,20 @@ import {
   StockRequest,
   StockSuccess,
   StockFailure,
+  StocksRequest,
+  StocksSuccess,
 } from "../interfaces/module/stock/stockact.interface";
 import {
   Stock,
+  StockData,
   Stocks,
   StockState,
 } from "../interfaces/module/stock/stock.interface";
 import * as stockAPI from "../pages/api/stock";
 
-// interface StockParam {
-//   stock: Stock;
-// }
+interface StocksProp {
+  stocks: StockData[],
+}
 
 export const stockRequest = ({ stockCode, stockName }: Stock): StockRequest => {
   return {
@@ -37,6 +40,25 @@ export const stockFailure = (): StockFailure => {
   };
 };
 
+export const stocksRequest = () => {
+  return ({
+    type: StockActionTypes.STOCKS_REQUEST,
+  })
+}
+
+export const stocksSuccess = ({ stocks }: StocksProp): StocksSuccess => {
+  return ({
+    type: StockActionTypes.STOCKS_SUCCESS,
+    stocks: stocks,
+  })
+}
+
+export const stocksFailure = () => {
+  return ({
+    type: StockActionTypes.STOCKS_FAILURE,
+  })
+}
+
 const initState: StockState = {
   stock: null,
   stocks: [],
@@ -57,8 +79,20 @@ function* stockRequestSaga(action: StockRequest) {
   }
 }
 
+function* stocksRequestSaga(action: StocksRequest) {
+  const getRes = yield call(stockAPI.getStocks);
+
+  if (getRes.status === 200) {
+    const stockArr = getRes.data;
+    yield put(stocksSuccess({ stocks: stockArr }));
+  } else {
+    yield put(stockFailure());
+  }
+}
+
 export function* stockSaga() {
   yield takeLatest(StockActionTypes.STOCK_REQUEST, stockRequestSaga);
+  yield takeLatest(StockActionTypes.STOCKS_REQUEST, stocksRequestSaga);
 }
 
 const stock = (state = initState, action: StockActions): StockState => {
@@ -68,6 +102,12 @@ const stock = (state = initState, action: StockActions): StockState => {
       return {
         ...state,
         stock: stock,
+      };
+    case StockActionTypes.STOCKS_SUCCESS:
+      const stocks = action.stocks;
+      return {
+        ...state,
+        stocks: stocks
       };
     default:
       return {
