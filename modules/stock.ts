@@ -1,4 +1,4 @@
-import { call, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import {
   StockActionTypes,
   StockActions,
@@ -13,9 +13,9 @@ import {
 } from "../interfaces/module/stock/stock.interface";
 import * as stockAPI from "../pages/api/stock";
 
-interface StockParam {
-  stock: Stock;
-}
+// interface StockParam {
+//   stock: Stock;
+// }
 
 export const stockRequest = ({ stockCode, stockName }: Stock): StockRequest => {
   return {
@@ -24,10 +24,10 @@ export const stockRequest = ({ stockCode, stockName }: Stock): StockRequest => {
   };
 };
 
-export const stockSuceess = ({ stock }: StockParam): StockSuccess => {
+export const stockSuceess = ({ stockCode, stockName }: Stock): StockSuccess => {
   return {
     type: StockActionTypes.STOCK_SUCCESS,
-    stock: stock,
+    stock: { stockCode, stockName },
   };
 };
 
@@ -48,7 +48,13 @@ function* stockRequestSaga(action: StockRequest) {
   if (!payload) return;
 
   const addRes = yield call(stockAPI.addStock, payload);
-  console.log("addRes: ", addRes);
+  
+  if (addRes.status === 200) {
+    const { stockCode, stockName } = addRes.data.details;
+    yield put(stockSuceess({stockCode, stockName}));
+  } else {
+    yield put(stockFailure());
+  }
 }
 
 export function* stockSaga() {

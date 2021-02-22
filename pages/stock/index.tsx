@@ -1,56 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { stockRequest } from "../../modules/stock";
+import { Modal, Button } from '../../components';
+import styled from 'styled-components';
+
+const StockWrapper = styled.div`
+  position: relative;
+`;
+
+const BtnWrapper = styled.div`
+  animation: float_ani 1s linear infinite alternate;
+`;
 
 const Stock = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
-  const [stockCode, setStockCode] = useState<string>("");
-  const [stockName, setStockName] = useState<string>("");
 
   const onOpenModal = () => {
     setOpen(true);
   };
-  const onCloseModal = () => {
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>, stockCode: string, stockName: string) => {
+    e.preventDefault();
+    dispatch(stockRequest({ stockCode, stockName }));
+
     setOpen(false);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(stockRequest({ stockCode, stockName }));
-  };
-
-  const onCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setStockCode(value);
-  };
-
-  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setStockName(value);
-  };
+  useEffect(() => {
+    setOpen(false);
+  }, []);
 
   return (
-    <div>
+    <StockWrapper>
       <span>stock 페이지</span>
 
-      {open && (
-        <div>
-          <form onSubmit={onSubmit}>
-            <div>
-              <input type="text" onChange={onCodeChange} value={stockCode} />
-              <input type="text" onChange={onNameChange} value={stockName} />
-            </div>
-            <div>
-              <button type="submit">저장</button>
-              <button onClick={onCloseModal}>취소</button>
-            </div>
-          </form>
-        </div>
-      )}
+      <Modal open={open} setOpen={setOpen} onSubmit={onSubmit} />
 
-      <button onClick={onOpenModal}>추가</button>
-    </div>
+      <BtnWrapper>
+        <Button type="button" onClick={onOpenModal}>STOCK LIST</Button>
+      </BtnWrapper>
+    </StockWrapper>
   );
 };
 
