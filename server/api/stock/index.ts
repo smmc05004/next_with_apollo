@@ -22,21 +22,21 @@ stockRouter.post("/stock", (req: Request, res: Response) => {
 });
 
 stockRouter.get("/stocks", (req: Request, res: Response) => {
-  console.log('body: ', req.body);
+  console.log("body: ", req.body);
   const selectQuery = selectStocksQuery();
 
   try {
     connection.query(selectQuery, (err, queryRes) => {
       if (!err && queryRes) {
-        console.log('queryRes: ', queryRes);
+        console.log("queryRes: ", queryRes);
         res.send(queryRes);
       } else {
-        console.log('err: ', err);
+        console.log("err: ", err);
       }
     });
   } catch (error) {
-    console.log('error: ', error);
+    console.log("error: ", error);
   }
-})
+});
 
 module.exports = stockRouter;

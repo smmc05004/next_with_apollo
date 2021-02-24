@@ -7,4 +7,4 @@ export const addStock = async ({ stockCode, stockName }: Stock) => {
 
 export const getStocks = async () => {
   return await client.get("/api/stock/stocks");
-}
+};

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { stockRequest, stocksRequest } from "../../modules/stock";
-import { Modal, Button } from '../../components';
-import styled from 'styled-components';
+import { Modal, Button } from "../../components";
+import styled from "styled-components";
 
 const StockWrapper = styled.div`
   position: relative;
@@ -20,7 +20,11 @@ const Stock = () => {
     setOpen(true);
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>, stockCode: string, stockName: string) => {
+  const onSubmit = (
+    e: React.FormEvent<HTMLFormElement>,
+    stockCode: string,
+    stockName: string
+  ) => {
     e.preventDefault();
     dispatch(stockRequest({ stockCode, stockName }));
 
@@ -39,7 +43,9 @@ const Stock = () => {
       <Modal open={open} setOpen={setOpen} onSubmit={onSubmit} />
 
       <BtnWrapper>
-        <Button type="button" onClick={onOpenModal}>STOCK LIST</Button>
+        <Button type="button" onClick={onOpenModal}>
+          STOCK LIST
+        </Button>
       </BtnWrapper>
     </StockWrapper>
   );

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { register, login } from "../../modules/auth";
-import { AuthType } from '../../interfaces/module/auth/auth.interface';
+import { AuthType } from "../../interfaces/module/auth/auth.interface";
 
 const AuthBtn = styled.button`
   background-color: white;
@@ -14,9 +14,7 @@ const AuthBtn = styled.button`
 const GoogleAuth = ({ authType }: AuthType) => {
   const dispatch = useDispatch();
 
-  const onLogin = (
-    response: any
-  ) => {
+  const onLogin = (response: any) => {
     const profile = response.profileObj;
     const id = profile.googleId;
     dispatch(login({ id }));

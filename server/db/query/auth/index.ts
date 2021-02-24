@@ -1,9 +1,9 @@
 interface userSqlProps {
-  userId: string,
+  userId: string;
 }
 
 interface addUserSqlProps extends userSqlProps {
-  newName: string,
+  newName: string;
 }
 
 export const getUserSql = ({ userId }: userSqlProps) => {
@@ -28,4 +28,4 @@ export const addUserSql = ({ userId, newName }: addUserSqlProps) => {
     `;
 
   return query;
-}
+};

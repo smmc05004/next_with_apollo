@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import InputWrapper from './InputWrapper';
-import { Button } from '../../components';
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+import InputWrapper from "./InputWrapper";
+import { Button } from "../../components";
 
-const Wrapper = styled.div<{open: boolean}>`
+const Wrapper = styled.div<{ open: boolean }>`
   position: absolute;
   top: 0;
-  left: ${(props) => (props.open ? '0' : '-100%')};
+  left: ${(props) => (props.open ? "0" : "-100%")};
   background-color: white;
   border: 0.5px solid black;
   transition: all 0.3s linear;
@@ -43,9 +43,13 @@ const BtnSection = styled.section`
 `;
 
 interface Props {
-  open: boolean,
-  setOpen: (bool: boolean) => void,
-  onSubmit: (e: React.FormEvent<HTMLFormElement>, code: string, name: string) => void,
+  open: boolean;
+  setOpen: (bool: boolean) => void;
+  onSubmit: (
+    e: React.FormEvent<HTMLFormElement>,
+    code: string,
+    name: string
+  ) => void;
 }
 
 const Modal = ({ open, setOpen, onSubmit }: Props) => {
@@ -67,28 +71,42 @@ const Modal = ({ open, setOpen, onSubmit }: Props) => {
   };
 
   useEffect(() => {
-    setStockCode('');
-    setStockName('');
+    setStockCode("");
+    setStockName("");
   }, [open]);
 
   return (
     <Wrapper open={open}>
       <CloseBtnWrapper>
-        <CloseBtn onClick={ onCloseModal }>x</CloseBtn>
+        <CloseBtn onClick={onCloseModal}>x</CloseBtn>
       </CloseBtnWrapper>
       <FormEl onSubmit={(e) => onSubmit(e, stockCode, stockName)}>
         <InputSection>
-          <InputWrapper id="code" onChange={ onCodeChange } value={stockCode} label='종목코드: ' maxLeng={6}/>
-          <InputWrapper id="name" onChange={ onNameChange } value={stockName} label='종목명: ' maxLeng={50}/>
+          <InputWrapper
+            id="code"
+            onChange={onCodeChange}
+            value={stockCode}
+            label="종목코드: "
+            maxLeng={6}
+          />
+          <InputWrapper
+            id="name"
+            onChange={onNameChange}
+            value={stockName}
+            label="종목명: "
+            maxLeng={50}
+          />
         </InputSection>
 
         <BtnSection>
           <Button type="submit">저장</Button>
-          <Button type='button' onClick={ onCloseModal }>취소</Button>
+          <Button type="button" onClick={onCloseModal}>
+            취소
+          </Button>
         </BtnSection>
       </FormEl>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default Modal
+export default Modal;

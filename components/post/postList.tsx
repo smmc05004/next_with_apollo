@@ -1,10 +1,10 @@
-import { PostData, Posts } from '../../interfaces/module/post/post.interface';
-import PostItem from './postItem';
-import styled from 'styled-components';
+import { PostData, Posts } from "../../interfaces/module/post/post.interface";
+import PostItem from "./postItem";
+import styled from "styled-components";
 
 const PostTitle = styled.h1`
- text-align: center;
- padding-bottom: 20px;
+  text-align: center;
+  padding-bottom: 20px;
 `;
 
 const TodoTable = styled.table`
@@ -24,14 +24,12 @@ const TodoTbody = styled.tbody`
 `;
 
 interface PostListProps extends Posts {
-  onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => void
+  onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => void;
 }
 
 const PostList = ({ posts, onComplete }: PostListProps) => {
   const items = posts.map((post, index) => {
-    return (
-      <PostItem post={post} key={index} onComplete={onComplete} />
-    )
+    return <PostItem post={post} key={index} onComplete={onComplete} />;
   });
 
   return (
@@ -40,10 +38,10 @@ const PostList = ({ posts, onComplete }: PostListProps) => {
 
       <TodoTable>
         <colgroup>
-        <col width={15} />
-        <col width={50} />
-        <col width={30} />
-        <col width={5} />
+          <col width={15} />
+          <col width={50} />
+          <col width={30} />
+          <col width={5} />
         </colgroup>
 
         <TodoThead>
@@ -54,12 +52,10 @@ const PostList = ({ posts, onComplete }: PostListProps) => {
             <th></th>
           </tr>
         </TodoThead>
-        <TodoTbody>
-          {items}
-        </TodoTbody>
+        <TodoTbody>{items}</TodoTbody>
       </TodoTable>
     </section>
-  )
-}
+  );
+};
 
 export default PostList;

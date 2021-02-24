@@ -6,7 +6,7 @@ import LoadingBtn from "../components/loadingBtn";
 import { RootStateInterface } from "../interfaces/rootState";
 import wrapper from "../store";
 import { checkLogin } from "../modules/auth";
-import { loadingState } from '../interfaces/module/loading/loading.interface';
+import { loadingState } from "../interfaces/module/loading/loading.interface";
 
 interface HomeVars extends loadingState {}
 

@@ -17,7 +17,7 @@ import {
 import * as stockAPI from "../pages/api/stock";
 
 interface StocksProp {
-  stocks: StockData[],
+  stocks: StockData[];
 }
 
 export const stockRequest = ({ stockCode, stockName }: Stock): StockRequest => {
@@ -41,23 +41,23 @@ export const stockFailure = (): StockFailure => {
 };
 
 export const stocksRequest = () => {
-  return ({
+  return {
     type: StockActionTypes.STOCKS_REQUEST,
-  })
-}
+  };
+};
 
 export const stocksSuccess = ({ stocks }: StocksProp): StocksSuccess => {
-  return ({
+  return {
     type: StockActionTypes.STOCKS_SUCCESS,
     stocks: stocks,
-  })
-}
+  };
+};
 
 export const stocksFailure = () => {
-  return ({
+  return {
     type: StockActionTypes.STOCKS_FAILURE,
-  })
-}
+  };
+};
 
 const initState: StockState = {
   stock: null,
@@ -70,10 +70,10 @@ function* stockRequestSaga(action: StockRequest) {
   if (!payload) return;
 
   const addRes = yield call(stockAPI.addStock, payload);
-  
+
   if (addRes.status === 200) {
     const { stockCode, stockName } = addRes.data.details;
-    yield put(stockSuceess({stockCode, stockName}));
+    yield put(stockSuceess({ stockCode, stockName }));
   } else {
     yield put(stockFailure());
   }
@@ -107,7 +107,7 @@ const stock = (state = initState, action: StockActions): StockState => {
       const stocks = action.stocks;
       return {
         ...state,
-        stocks: stocks
+        stocks: stocks,
       };
     default:
       return {

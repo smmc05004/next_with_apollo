@@ -1,5 +1,5 @@
-import { PostData } from '../../interfaces/module/post/post.interface';
-import styled from 'styled-components';
+import { PostData } from "../../interfaces/module/post/post.interface";
+import styled from "styled-components";
 
 const TodoTr = styled.tr`
   &:nth-child(2n) {
@@ -9,7 +9,7 @@ const TodoTr = styled.tr`
 
 interface PostItemProps {
   post: PostData;
-  onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => void
+  onComplete: (e: React.MouseEvent<HTMLButtonElement>, post: PostData) => void;
 }
 
 const PostItem = ({ post, onComplete }: PostItemProps) => {
@@ -21,14 +21,12 @@ const PostItem = ({ post, onComplete }: PostItemProps) => {
       <td>{post.contents}</td>
       <td>{post.complete}</td>
       <td>
-      <button onClick={(e) => onComplete(e, post)}>
-        {
-          isComplete === 'n' ? ' 완료' : '취소'
-        }
-      </button>
-        </td>
+        <button onClick={(e) => onComplete(e, post)}>
+          {isComplete === "n" ? " 완료" : "취소"}
+        </button>
+      </td>
     </TodoTr>
-  )
-}
+  );
+};
 
 export default PostItem;

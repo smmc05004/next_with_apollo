@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const InputWrapper = styled.div`
   width: 100%;
@@ -18,20 +18,27 @@ const InputEl = styled.input`
 `;
 
 interface Props {
-  id: string,
-  onChange : (e: React.ChangeEvent<HTMLInputElement>) => void,
-  value: string,
-  label: string,
-  maxLeng: number,
+  id: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  label: string;
+  maxLeng: number;
 }
 
 const ModalInput = ({ id, onChange, value, label, maxLeng }: Props) => {
   return (
     <InputWrapper>
       <LabelEl htmlFor={id}>{label}</LabelEl>
-      <InputEl id={id} type="text" onChange={onChange} value={value} minLength={2} maxLength={maxLeng} />
+      <InputEl
+        id={id}
+        type="text"
+        onChange={onChange}
+        value={value}
+        minLength={2}
+        maxLength={maxLeng}
+      />
     </InputWrapper>
-  )
-}
+  );
+};
 
 export default ModalInput;

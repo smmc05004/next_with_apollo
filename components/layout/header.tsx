@@ -54,7 +54,7 @@ const Header = () => {
       </MenuWrapper>
       <MenuWrapper>
         {isLogined === true ? (
-          <LogoutBtn onClick={ onLogout }>로그아웃</LogoutBtn>
+          <LogoutBtn onClick={onLogout}>로그아웃</LogoutBtn>
         ) : (
           <>
             <GoogleAuth authType="login" />

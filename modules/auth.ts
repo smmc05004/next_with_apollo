@@ -77,8 +77,8 @@ function* loginSaga(action: Login) {
 
   const uid = payload;
   const loginRes = yield call(authAPI.login, uid);
-  console.log('loginRes: ', loginRes);
-  
+  console.log("loginRes: ", loginRes);
+
   if (loginRes.status === 200) {
     yield put(loginSuccess({ id: uid }));
   } else {

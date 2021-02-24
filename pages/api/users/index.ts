@@ -18,7 +18,7 @@ import { User } from "../../../interfaces/module/auth/auth.interface";
 
 // export default handler
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
 
 export const register = async (user: User) =>
   await client.post("/api/auth/user", { user });

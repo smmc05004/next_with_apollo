@@ -2,7 +2,7 @@ interface GetPostsSqlProps {
   userId: string;
 }
 
-interface AddPostSqlProps extends GetPostsSqlProps{
+interface AddPostSqlProps extends GetPostsSqlProps {
   contents: string;
   deadline: string;
 }
@@ -20,8 +20,8 @@ export const addPostSql = ({ contents, deadline, userId }: AddPostSqlProps) => {
     ('${contents}', '${deadline}', '${userId}')
   `;
 
-  return query
-}
+  return query;
+};
 
 export const getPostsSql = ({ userId }: GetPostsSqlProps) => {
   const query = `
@@ -36,9 +36,12 @@ export const getPostsSql = ({ userId }: GetPostsSqlProps) => {
   `;
 
   return query;
-}
+};
 
-export const updateCompleteSql = ({ completeFlag, postId }: updateCompleteSql) => {
+export const updateCompleteSql = ({
+  completeFlag,
+  postId,
+}: updateCompleteSql) => {
   const query = `
   UPDATE
     post
@@ -49,4 +52,4 @@ export const updateCompleteSql = ({ completeFlag, postId }: updateCompleteSql) =
   `;
 
   return query;
-}
+};

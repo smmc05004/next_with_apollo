@@ -9,7 +9,7 @@ const dev = process.env.NODE_ENV !== "production";
 const nextapp = next({ dev });
 const handle = nextapp.getRequestHandler();
 
-const apiRouter = require('./api');
+const apiRouter = require("./api");
 
 nextapp
   .prepare()

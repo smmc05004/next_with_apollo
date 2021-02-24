@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { AuthType } from '../../interfaces/module/auth/auth.interface';
+import { AuthType } from "../../interfaces/module/auth/auth.interface";
 
 const Btn = styled.button`
   background-color: none;

@@ -9,7 +9,13 @@ export enum StockActionTypes {
   STOCKS_FAILURE = "STOCKS_FAILURE",
 }
 
-export type StockActions = StockRequest | StockSuccess | StockFailure | StocksRequest | StocksSuccess | StocksFailure;
+export type StockActions =
+  | StockRequest
+  | StockSuccess
+  | StockFailure
+  | StocksRequest
+  | StocksSuccess
+  | StocksFailure;
 
 export interface StockRequest {
   type: StockActionTypes.STOCK_REQUEST;
@@ -31,7 +37,7 @@ export interface StocksRequest {
 
 export interface StocksSuccess {
   type: StockActionTypes.STOCKS_SUCCESS;
-  stocks: StockData[]
+  stocks: StockData[];
 }
 
 export interface StocksFailure {
