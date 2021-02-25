@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import InputWrapper from "./InputWrapper";
-import { Button, StockList } from "../../components";
+import { useEffect, useState } from "react";
 import { StockData } from "../../interfaces";
+import { Button, StockList } from "../../components";
+import InputWrapper from "./InputWrapper";
 
 const Wrapper = styled.div<{ open: boolean }>`
   position: absolute;
@@ -52,9 +52,10 @@ interface Props {
     name: string
   ) => void;
   list: StockData[];
+  totalCnt: number;
 }
 
-const Modal = ({ open, setOpen, onSubmit, list }: Props) => {
+const Modal = ({ open, setOpen, onSubmit, list, totalCnt }: Props) => {
   const [stockCode, setStockCode] = useState<string>("");
   const [stockName, setStockName] = useState<string>("");
 
@@ -108,7 +109,7 @@ const Modal = ({ open, setOpen, onSubmit, list }: Props) => {
         </BtnSection>
       </FormEl>
 
-      <StockList list={list} />
+      <StockList list={list} totalCnt={totalCnt} />
     </Wrapper>
   );
 };

@@ -1,6 +1,11 @@
 import express, { Request, Response } from "express";
+import url from "url";
 import { connection } from "../../db/connection";
-import { addStockQuery, selectStocksQuery } from "../../db/query/stock";
+import {
+  addStockQuery,
+  selectStocksQuery,
+  getTotalQuery,
+} from "../../db/query/stock";
 
 const stockRouter = express.Router();
 
@@ -22,14 +27,27 @@ stockRouter.post("/stock", (req: Request, res: Response) => {
 });
 
 stockRouter.get("/stocks", (req: Request, res: Response) => {
-  console.log("body: ", req.body);
-  const selectQuery = selectStocksQuery();
+  const queryData = url.parse(req.url, true).query;
+  const page = Number(queryData.page);
+  const selectQuery = selectStocksQuery({ page });
+  const totalQuery = getTotalQuery();
 
   try {
     connection.query(selectQuery, (err, queryRes) => {
       if (!err && queryRes) {
-        console.log("queryRes: ", queryRes);
-        res.send(queryRes);
+        // console.log("queryRes: ", queryRes);
+
+        connection.query(totalQuery, (totalErr, totalQueryRes) => {
+          // console.log("totalQueryRes: ", totalQueryRes);
+
+          if (!totalErr && totalQueryRes) {
+            const totalCnt = totalQueryRes[0].totalCnt;
+
+            res.send({ list: queryRes, totalCnt });
+          } else {
+            console.log("totalErr: ", totalErr);
+          }
+        });
       } else {
         console.log("err: ", err);
       }

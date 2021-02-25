@@ -17,7 +17,14 @@ import {
 import * as stockAPI from "../pages/api/stock";
 
 interface StocksProp {
-  stocks: StockData[];
+  stocks: {
+    list: StockData[];
+    totalCnt: number;
+  };
+}
+
+interface StocksRequestProps {
+  page: number;
 }
 
 export const stockRequest = ({ stockCode, stockName }: Stock): StockRequest => {
@@ -40,9 +47,10 @@ export const stockFailure = (): StockFailure => {
   };
 };
 
-export const stocksRequest = () => {
+export const stocksRequest = ({ page }: StocksRequestProps): StocksRequest => {
   return {
     type: StockActionTypes.STOCKS_REQUEST,
+    payload: { page },
   };
 };
 
@@ -61,7 +69,10 @@ export const stocksFailure = () => {
 
 const initState: StockState = {
   stock: null,
-  stocks: [],
+  stocks: {
+    list: [],
+    totalCnt: 0,
+  },
 };
 
 function* stockRequestSaga(action: StockRequest) {
@@ -80,11 +91,15 @@ function* stockRequestSaga(action: StockRequest) {
 }
 
 function* stocksRequestSaga(action: StocksRequest) {
-  const getRes = yield call(stockAPI.getStocks);
+  const { payload } = action;
+  if (!payload) return;
 
-  if (getRes.status === 200) {
-    const stockArr = getRes.data;
-    yield put(stocksSuccess({ stocks: stockArr }));
+  const getListRes = yield call(stockAPI.getStocks, payload);
+  console.log("getListRes: ", getListRes);
+
+  if (getListRes.status === 200) {
+    const { list, totalCnt } = getListRes.data;
+    yield put(stocksSuccess({ stocks: { list, totalCnt } }));
   } else {
     yield put(stockFailure());
   }
@@ -105,6 +120,7 @@ const stock = (state = initState, action: StockActions): StockState => {
       };
     case StockActionTypes.STOCKS_SUCCESS:
       const stocks = action.stocks;
+
       return {
         ...state,
         stocks: stocks,

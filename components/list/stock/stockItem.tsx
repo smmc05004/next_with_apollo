@@ -8,19 +8,21 @@ const Item = styled.li`
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  text-align: center;
 `;
 
 const Code = styled.div`
-  width: 50%;
-  text-align: center;
+  width: 30%;
 `;
 
 const Name = styled.div`
   width: 50%;
-  text-align: center;
+`;
+
+const DelBtn = styled.button`
+  width: 20%;
+  cursor: pointer;
 `;
 
 interface Props {
@@ -33,6 +35,7 @@ const StockItem = ({ stock }: Props) => {
       <Wrapper>
         <Code>{stock.stockCode}</Code>
         <Name>{stock.stockName}</Name>
+        <DelBtn>삭제</DelBtn>
       </Wrapper>
     </Item>
   );

@@ -8,7 +8,10 @@ export interface StockData extends Stock {
 }
 
 export interface Stocks {
-  stocks: StockData[];
+  stocks: {
+    list: StockData[];
+    totalCnt: number;
+  };
 }
 
 export interface StockState extends Stocks {

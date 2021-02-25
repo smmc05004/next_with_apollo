@@ -1,8 +1,8 @@
+import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { stockRequest, stocksRequest } from "../../modules/stock";
 import { Modal, Button } from "../../components";
-import styled from "styled-components";
 import { RootStateInterface } from "../../interfaces/rootState";
 
 const StockWrapper = styled.div`
@@ -16,8 +16,9 @@ const BtnWrapper = styled.div`
 const Stock = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);
-  const { stockList } = useSelector((state: RootStateInterface) => ({
-    stockList: state.stock.stocks,
+  const { stockList, totalCnt } = useSelector((state: RootStateInterface) => ({
+    stockList: state.stock.stocks.list,
+    totalCnt: state.stock.stocks.totalCnt,
   }));
 
   const onOpenModal = () => {
@@ -37,7 +38,7 @@ const Stock = () => {
 
   useEffect(() => {
     setOpen(false);
-    dispatch(stocksRequest());
+    dispatch(stocksRequest({ page: 1 }));
   }, []);
 
   return (
@@ -49,6 +50,7 @@ const Stock = () => {
         setOpen={setOpen}
         onSubmit={onSubmit}
         list={stockList}
+        totalCnt={totalCnt}
       />
 
       <BtnWrapper>

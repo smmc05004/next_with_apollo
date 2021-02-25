@@ -4,7 +4,6 @@ import Footer from "./layout/footer";
 
 // common
 import Button from "./common/button";
-import Pagination from "./common/pagination";
 
 // oauth
 import GoogleAuth from "./oauth/googleAuth";
@@ -24,7 +23,6 @@ export {
   Header,
   Footer,
   Button,
-  Pagination,
   GoogleAuth,
   Loading,
   PostList,

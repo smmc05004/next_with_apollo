@@ -1,4 +1,4 @@
-import { Stock, StockData, Stocks } from "./stock.interface";
+import { Stock, StockData } from "./stock.interface";
 
 export enum StockActionTypes {
   STOCK_REQUEST = "STOCK_REQUEST",
@@ -33,11 +33,15 @@ export interface StockFailure {
 
 export interface StocksRequest {
   type: StockActionTypes.STOCKS_REQUEST;
+  payload: { page: number };
 }
 
 export interface StocksSuccess {
   type: StockActionTypes.STOCKS_SUCCESS;
-  stocks: StockData[];
+  stocks: {
+    list: StockData[];
+    totalCnt: number;
+  };
 }
 
 export interface StocksFailure {

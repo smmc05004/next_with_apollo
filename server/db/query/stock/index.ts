@@ -1,5 +1,9 @@
 import { Stock } from "../../../../interfaces/module/stock/stock.interface";
 
+interface GetStocksQuery {
+  page: number;
+}
+
 const addStockQuery = ({ stockCode, stockName }: Stock) => {
   const query = `
     INSERT INTO stock
@@ -10,7 +14,7 @@ const addStockQuery = ({ stockCode, stockName }: Stock) => {
   return query;
 };
 
-const selectStocksQuery = () => {
+const selectStocksQuery = ({ page }: GetStocksQuery) => {
   const query = `
     SELECT
       stock_num as stockNum
@@ -18,8 +22,23 @@ const selectStocksQuery = () => {
       , stock_name as stockName
     FROM
       stock
+    ORDER BY
+      stock_num ASC
+    LIMIT
+      ${(page - 1) * 5}, ${5}
+    
   `;
   return query;
 };
 
-export { addStockQuery, selectStocksQuery };
+const getTotalQuery = () => {
+  const query = `
+    SELECT
+      COUNT(*) as totalCnt
+    FROM
+      stock
+  `;
+  return query;
+};
+
+export { addStockQuery, selectStocksQuery, getTotalQuery };
