@@ -16,6 +16,7 @@ const Title = styled.h5`
 
 const ListWrapper = styled.ul`
   width: 100%;
+  margin: 10px 0;
 `;
 
 const PaginationWrapper = styled.div``;

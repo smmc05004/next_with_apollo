@@ -15,6 +15,7 @@ import {
   StockState,
 } from "../interfaces/module/stock/stock.interface";
 import * as stockAPI from "../pages/api/stock";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
 interface StocksProp {
   stocks: {
@@ -27,12 +28,14 @@ interface StocksRequestProps {
   page: number;
 }
 
-export const stockRequest = ({ stockCode, stockName }: Stock): StockRequest => {
-  return {
-    type: StockActionTypes.STOCK_REQUEST,
-    payload: { stockCode, stockName },
-  };
-};
+// export const stockRequest = ({ stockCode, stockName }: Stock): StockRequest => {
+//   return {
+//     type: StockActionTypes.STOCK_REQUEST,
+//     payload: { stockCode, stockName },
+//   };
+// };
+
+export const stockRequest = createAction<Stock>(StockActionTypes.STOCK_REQUEST);
 
 export const stockSuceess = ({ stockCode, stockName }: Stock): StockSuccess => {
   return {
@@ -47,12 +50,15 @@ export const stockFailure = (): StockFailure => {
   };
 };
 
-export const stocksRequest = ({ page }: StocksRequestProps): StocksRequest => {
-  return {
-    type: StockActionTypes.STOCKS_REQUEST,
-    payload: { page },
-  };
-};
+// export const stocksRequest = ({ page }: StocksRequestProps): StocksRequest => {
+//   return {
+//     type: StockActionTypes.STOCKS_REQUEST,
+//     payload: { page },
+//   };
+// };
+export const stocksRequest = createAction<StocksRequestProps>(
+  StockActionTypes.STOCKS_REQUEST
+);
 
 export const stocksSuccess = ({ stocks }: StocksProp): StocksSuccess => {
   return {
@@ -110,26 +116,37 @@ export function* stockSaga() {
   yield takeLatest(StockActionTypes.STOCKS_REQUEST, stocksRequestSaga);
 }
 
-const stock = (state = initState, action: StockActions): StockState => {
-  switch (action.type) {
-    case StockActionTypes.STOCK_SUCCESS:
-      const stock = action.stock;
-      return {
-        ...state,
-        stock: stock,
-      };
-    case StockActionTypes.STOCKS_SUCCESS:
-      const stocks = action.stocks;
+// const stock = (state = initState, action: StockActions): StockState => {
+//   switch (action.type) {
+//     case StockActionTypes.STOCK_SUCCESS:
+//       const stock = action.stock;
+//       return {
+//         ...state,
+//         stock: stock,
+//       };
+//     case StockActionTypes.STOCKS_SUCCESS:
+//       const stocks = action.stocks;
 
-      return {
-        ...state,
-        stocks: stocks,
-      };
-    default:
-      return {
-        ...state,
-      };
-  }
-};
+//       return {
+//         ...state,
+//         stocks: stocks,
+//       };
+//     default:
+//       return {
+//         ...state,
+//       };
+//   }
+
+// };
+
+const stock = createReducer(initState, {
+  [StockActionTypes.STOCKS_SUCCESS]: (state, action) => {
+    const stocks = action.stocks;
+    return {
+      ...state,
+      stocks: stocks,
+    };
+  },
+});
 
 export default stock;
