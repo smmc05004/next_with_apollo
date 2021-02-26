@@ -13,6 +13,9 @@ const BtnWrapper = styled.div`
   animation: float_ani 1s linear infinite alternate;
 `;
 
+const stock_list = (state: RootStateInterface) => state.stock.stocks.list;
+const total_cnt = (state: RootStateInterface) => state.stock.stocks.totalCnt;
+
 const Stock = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<boolean>(false);

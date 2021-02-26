@@ -15,7 +15,7 @@ import {
   StockState,
 } from "../interfaces/module/stock/stock.interface";
 import * as stockAPI from "../pages/api/stock";
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface StocksProp {
   stocks: {
@@ -27,6 +27,12 @@ interface StocksProp {
 interface StocksRequestProps {
   page: number;
 }
+
+interface StockRequestProps {
+  stock: Stock | null;
+}
+
+const prefix = "STOCK";
 
 // export const stockRequest = ({ stockCode, stockName }: Stock): StockRequest => {
 //   return {
@@ -57,15 +63,19 @@ export const stockFailure = (): StockFailure => {
 //   };
 // };
 export const stocksRequest = createAction<StocksRequestProps>(
-  StockActionTypes.STOCKS_REQUEST
+  // StockActionTypes.STOCKS_REQUEST
+  `${prefix}/STOCKS_REQUEST`
 );
 
-export const stocksSuccess = ({ stocks }: StocksProp): StocksSuccess => {
-  return {
-    type: StockActionTypes.STOCKS_SUCCESS,
-    stocks: stocks,
-  };
-};
+// export const stocksSuccess = ({ stocks }: StocksProp): StocksSuccess => {
+//   return {
+//     type: StockActionTypes.STOCKS_SUCCESS,
+//     stocks: stocks,
+//   };
+// };
+export const stocksSuccess = createAction<StocksProp>(
+  `${prefix}/STOCKS_SUCCESS`
+);
 
 export const stocksFailure = () => {
   return {
@@ -82,8 +92,9 @@ const initState: StockState = {
 };
 
 function* stockRequestSaga(action: StockRequest) {
+  console.log("request sage");
   const { payload } = action;
-
+  console.log("action: ", action);
   if (!payload) return;
 
   const addRes = yield call(stockAPI.addStock, payload);
@@ -98,10 +109,10 @@ function* stockRequestSaga(action: StockRequest) {
 
 function* stocksRequestSaga(action: StocksRequest) {
   const { payload } = action;
+
   if (!payload) return;
 
   const getListRes = yield call(stockAPI.getStocks, payload);
-  console.log("getListRes: ", getListRes);
 
   if (getListRes.status === 200) {
     const { list, totalCnt } = getListRes.data;
@@ -113,7 +124,8 @@ function* stocksRequestSaga(action: StocksRequest) {
 
 export function* stockSaga() {
   yield takeLatest(StockActionTypes.STOCK_REQUEST, stockRequestSaga);
-  yield takeLatest(StockActionTypes.STOCKS_REQUEST, stocksRequestSaga);
+  // yield takeLatest(StockActionTypes.STOCKS_REQUEST, stocksRequestSaga);
+  yield takeLatest(`${prefix}/STOCKS_REQUEST`, stocksRequestSaga);
 }
 
 // const stock = (state = initState, action: StockActions): StockState => {
@@ -139,14 +151,43 @@ export function* stockSaga() {
 
 // };
 
-const stock = createReducer(initState, {
-  [StockActionTypes.STOCKS_SUCCESS]: (state, action) => {
-    const stocks = action.stocks;
+// const stock = createReducer(initState, {
+//   [StockActionTypes.STOCKS_SUCCESS]: (state, action) => {
+//     const stocks = action.stocks;
+//     return {
+//       ...state,
+//       stocks: stocks,
+//     };
+//   },
+// });
+
+const stock = {
+  STOCK_SUCCESS: (
+    state: StockState,
+    { payload: { stock } }: PayloadAction<StockRequestProps>
+  ) => {
+    return {
+      ...state,
+      stock: stock,
+    };
+  },
+  STOCKS_SUCCESS: (
+    state: StockState,
+    { payload: { stocks } }: PayloadAction<StocksProp>
+  ) => {
     return {
       ...state,
       stocks: stocks,
     };
   },
+};
+
+const stockSlice = createSlice({
+  reducers: stock,
+  initialState: initState,
+  name: prefix,
 });
 
-export default stock;
+// export default stock;
+
+export default stockSlice;
