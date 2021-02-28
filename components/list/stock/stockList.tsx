@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Pagination } from "@material-ui/lab";
 import { StockData } from "../../../interfaces";
-import { stocksRequest } from "../../../modules/stock";
+import stockSlice from "../../../modules/stock";
 import StockItem from "./stockItem";
 
 const Wrapper = styled.div`
@@ -27,13 +27,15 @@ interface Porps {
 }
 
 const StockList = ({ list, totalCnt }: Porps) => {
+  console.log("리스트 렌더링");
   const dispatch = useDispatch();
 
   const [pageNum, setPageNum] = useState<number>(1);
 
   const onPageHandle = (event: Object, page: number) => {
     setPageNum(page);
-    dispatch(stocksRequest({ page }));
+    // dispatch(stocksRequest({ page }));
+    dispatch(stockSlice.actions.STOCKS_REQUEST({ page }));
   };
 
   const stockList = function () {
@@ -61,3 +63,4 @@ const StockList = ({ list, totalCnt }: Porps) => {
 };
 
 export default StockList;
+// export default React.memo(StockList);

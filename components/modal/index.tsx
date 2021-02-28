@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StockData } from "../../interfaces";
 import { Button, StockList } from "../../components";
 import InputWrapper from "./InputWrapper";
@@ -56,6 +56,9 @@ interface Props {
 }
 
 const Modal = ({ open, setOpen, onSubmit, list, totalCnt }: Props) => {
+  console.log("Modal 렌더링");
+  console.log(list, totalCnt);
+
   const [stockCode, setStockCode] = useState<string>("");
   const [stockName, setStockName] = useState<string>("");
 

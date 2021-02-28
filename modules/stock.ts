@@ -15,7 +15,15 @@ import {
   StockState,
 } from "../interfaces/module/stock/stock.interface";
 import * as stockAPI from "../pages/api/stock";
-import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createSelector,
+  createSlice,
+  PayloadAction,
+  PrepareAction,
+} from "@reduxjs/toolkit";
+import { RootStateInterface } from "../interfaces/rootState";
+import { Action } from "redux-actions";
 
 interface StocksProp {
   stocks: {
@@ -41,8 +49,10 @@ const prefix = "STOCK";
 //   };
 // };
 
+// stock request
 export const stockRequest = createAction<Stock>(StockActionTypes.STOCK_REQUEST);
 
+// stock success
 export const stockSuceess = ({ stockCode, stockName }: Stock): StockSuccess => {
   return {
     type: StockActionTypes.STOCK_SUCCESS,
@@ -50,38 +60,70 @@ export const stockSuceess = ({ stockCode, stockName }: Stock): StockSuccess => {
   };
 };
 
+// stock failure
 export const stockFailure = (): StockFailure => {
   return {
     type: StockActionTypes.STOCK_FAILURE,
   };
 };
 
+// stocks request
 // export const stocksRequest = ({ page }: StocksRequestProps): StocksRequest => {
 //   return {
 //     type: StockActionTypes.STOCKS_REQUEST,
 //     payload: { page },
 //   };
 // };
-export const stocksRequest = createAction<StocksRequestProps>(
-  // StockActionTypes.STOCKS_REQUEST
-  `${prefix}/STOCKS_REQUEST`
-);
 
+// export const stocksRequest = createAction<StocksRequestProps>(
+//   // StockActionTypes.STOCKS_REQUEST
+//   `${prefix}/STOCKS_REQUEST`
+// );
+
+// export const stocksRequest = createAction<PrepareAction<StocksRequestProps>>(
+//   // StockActionTypes.STOCKS_REQUEST
+//   `${prefix}/STOCKS_REQUEST`,
+//   function prepare({ page }) {
+//     console.log("page: ", page);
+
+//     return {
+//       payload: { page },
+//     };
+//   }
+// );
+
+// stocks success
 // export const stocksSuccess = ({ stocks }: StocksProp): StocksSuccess => {
 //   return {
 //     type: StockActionTypes.STOCKS_SUCCESS,
 //     stocks: stocks,
 //   };
 // };
-export const stocksSuccess = createAction<StocksProp>(
-  `${prefix}/STOCKS_SUCCESS`
+// export const stocksSuccess = createAction<StocksProp>(
+//   `${prefix}/STOCKS_SUCCESS`
+// );
+
+// stocks failure
+// export const stocksFailure = () => {
+//   return {
+//     type: StockActionTypes.STOCKS_FAILURE,
+//   };
+// };
+
+export const stocksFailure = createAction<undefined>(
+  `${prefix}StockActionTypes.STOCKS_SUCCESS`
 );
 
-export const stocksFailure = () => {
-  return {
-    type: StockActionTypes.STOCKS_FAILURE,
-  };
-};
+// prepare function useage
+// export const stocksFailure = createAction<PrepareAction<string>>(
+//   `${prefix}StockActionTypes.STOCKS_SUCCESS`,
+//   function prepare(aa: number) {
+//     return {
+//       payload: aa + "",
+//       error: console.log("stocksFailure error occured"),
+//     };
+//   }
+// );
 
 const initState: StockState = {
   stock: null,
@@ -92,9 +134,8 @@ const initState: StockState = {
 };
 
 function* stockRequestSaga(action: StockRequest) {
-  console.log("request sage");
   const { payload } = action;
-  console.log("action: ", action);
+
   if (!payload) return;
 
   const addRes = yield call(stockAPI.addStock, payload);
@@ -116,9 +157,12 @@ function* stocksRequestSaga(action: StocksRequest) {
 
   if (getListRes.status === 200) {
     const { list, totalCnt } = getListRes.data;
-    yield put(stocksSuccess({ stocks: { list, totalCnt } }));
+    // yield put(stocksSuccess({ stocks: { list, totalCnt } }));
+    yield put(
+      stockSlice.actions.STOCKS_SUCCESS({ stocks: { list, totalCnt } })
+    );
   } else {
-    yield put(stockFailure());
+    yield put(stocksFailure());
   }
 }
 
@@ -165,22 +209,48 @@ const stock = {
   STOCK_SUCCESS: (
     state: StockState,
     { payload: { stock } }: PayloadAction<StockRequestProps>
-  ) => {
-    return {
-      ...state,
-      stock: stock,
-    };
-  },
+  ) => ({
+    ...state,
+    stock: stock,
+  }),
+  STOCKS_REQUEST: (
+    state: StockState,
+    // { payload: { page } }: PayloadAction<StocksRequestProps>
+    action: Action<StocksRequestProps>
+  ) => ({
+    ...state,
+    stocks: {
+      list: [],
+      totalCnt: 0,
+    },
+  }),
   STOCKS_SUCCESS: (
     state: StockState,
     { payload: { stocks } }: PayloadAction<StocksProp>
-  ) => {
-    return {
-      ...state,
-      stocks: stocks,
-    };
-  },
+  ) => ({
+    ...state,
+    stocks: stocks,
+  }),
 };
+
+// const stock_list = (state: RootStateInterface) => state.stock.stocks.list;
+// const stock_cnt = (state: RootStateInterface) => state.stock.stocks.totalCnt;
+
+// export const getList = createSelector([stock_list, stock_cnt], (list, cnt) => {
+//   const newList = list.map((item, index) => ({
+//     stockNum: item.stockNum,
+//     stockName: item.stockName,
+//     stockCode: item.stockCode + "aaa",
+//   }));
+//   console.log("newList: ", newList);
+
+//   return newList;
+// });
+
+// export const getCnt = createSelector(
+//   [stock_list, stock_cnt],
+//   (list, cnt) => cnt + 5
+// );
 
 const stockSlice = createSlice({
   reducers: stock,
