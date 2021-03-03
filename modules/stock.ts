@@ -167,9 +167,10 @@ function* stocksRequestSaga(action: StocksRequest) {
 }
 
 export function* stockSaga() {
+  const { STOCKS_REQUEST } = stockSlice.actions;
   yield takeLatest(StockActionTypes.STOCK_REQUEST, stockRequestSaga);
   // yield takeLatest(StockActionTypes.STOCKS_REQUEST, stocksRequestSaga);
-  yield takeLatest(`${prefix}/STOCKS_REQUEST`, stocksRequestSaga);
+  yield takeLatest(STOCKS_REQUEST, stocksRequestSaga);
 }
 
 // const stock = (state = initState, action: StockActions): StockState => {
@@ -216,14 +217,8 @@ const stock = {
   STOCKS_REQUEST: (
     state: StockState,
     // { payload: { page } }: PayloadAction<StocksRequestProps>
-    action: Action<StocksRequestProps>
-  ) => ({
-    ...state,
-    stocks: {
-      list: [],
-      totalCnt: 0,
-    },
-  }),
+    action: PayloadAction<StocksRequestProps>
+  ) => {},
   STOCKS_SUCCESS: (
     state: StockState,
     { payload: { stocks } }: PayloadAction<StocksProp>
@@ -257,7 +252,5 @@ const stockSlice = createSlice({
   initialState: initState,
   name: prefix,
 });
-
-// export default stock;
 
 export default stockSlice;

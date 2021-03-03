@@ -59,9 +59,11 @@ AuthRouter.post("/login", (req: Request, res: Response) => {
 
 AuthRouter.post("/check", (req: Request, res: Response) => {
   const token = req.body.token;
+  console.log("token: ", token);
 
   if (token) {
     const veriRes: any = verifyToken(token);
+    console.log("veriRes: ", veriRes);
     const user_id = veriRes.data;
     const selectQuery = getUserSql({ userId: user_id });
 

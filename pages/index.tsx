@@ -5,7 +5,8 @@ import { Loading } from "../components";
 import LoadingBtn from "../components/loadingBtn";
 import { RootStateInterface } from "../interfaces/rootState";
 import wrapper from "../store";
-import { checkLogin } from "../modules/auth";
+// import { checkLogin } from "../modules/auth";
+import authSlice from "../modules/auth";
 import { loadingState } from "../interfaces/module/loading/loading.interface";
 
 interface HomeVars extends loadingState {}
@@ -31,7 +32,8 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     if (req.cookies) {
       // console.log("coockie: ", req.cookies["my-cookie"]);
       const token = req.cookies["my-cookie"];
-      context.store.dispatch(checkLogin({ token }));
+      // context.store.dispatch(checkLogin({ token }));
+      context.store.dispatch(authSlice.actions.CHECK_LOGIN({ token }));
     } else {
       console.log("로그인 필요");
     }

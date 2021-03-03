@@ -14,43 +14,25 @@ import { authState } from "../interfaces/module/auth/auth.interface";
 import { Token, UserId, User } from "../interfaces/module/auth/auth.interface";
 import { call, put, select, takeLatest } from "redux-saga/effects";
 import * as authAPI from "../pages/api/users";
+import {
+  Action,
+  createAction,
+  createReducer,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 
-// action creator
-export const register = ({ id, name }: User): Register => ({
-  type: authActionTypes.REGISTER,
-  payload: { id, name },
-});
+interface LoginProps {
+  id: string;
+}
+interface CheckLoginProps {
+  token: string;
+}
 
-export const login = ({ id }: UserId): Login => ({
-  type: authActionTypes.LOGIN,
-  payload: id,
-});
+const prefix = "AUTH";
 
-const loginSuccess = ({ id }: UserId): LoginSuccess => ({
-  type: authActionTypes.LOGIN_SUCCESS,
-  uid: id,
-});
-
-const loginFailure = (): LoginFailure => ({
-  type: authActionTypes.LOGIN_FAILURE,
-});
-
-export const logout = (): Logout => ({
-  type: authActionTypes.LOGOUT,
-});
-
-export const logoutSuccess = (): LogoutSuccess => ({
-  type: authActionTypes.LOGOUT_SUCCESS,
-});
-
-export const logoutFailure = (): LogoutFailure => ({
-  type: authActionTypes.LOGOUT_FAILURE,
-});
-
-export const checkLogin = ({ token }: Token): CheckLogin => ({
-  type: authActionTypes.CHECK_LOGIN,
-  payload: token,
-});
+// login check
+// export const checkLogin = createAction<Token>(authActionTypes.CHECK_LOGIN);
 
 // init state
 const initialState: authState = {
@@ -59,8 +41,9 @@ const initialState: authState = {
 };
 
 // auth sagas
-function* registerSaga(action: Register) {
+function* registerSaga(action: PayloadAction<User>) {
   const { payload } = action;
+
   if (!payload) return;
 
   const registerRes = yield call(authAPI.register, payload);
@@ -71,94 +54,114 @@ function* registerSaga(action: Register) {
   }
 }
 
-function* loginSaga(action: Login) {
+function* loginSaga(action: PayloadAction<LoginProps>) {
   const { payload } = action;
+
   if (!payload) return;
 
-  const uid = payload;
-  const loginRes = yield call(authAPI.login, uid);
-  console.log("loginRes: ", loginRes);
+  const { id } = payload;
+  const loginRes = yield call(authAPI.login, id);
 
   if (loginRes.status === 200) {
-    yield put(loginSuccess({ id: uid }));
+    yield put(authSlice.actions.LOGIN_SUCCESS({ id }));
   } else {
-    yield put(loginFailure());
+    yield put(authSlice.actions.LOGIN_FAILURE());
   }
 }
 
-function* checkLoginSaga(action: CheckLogin) {
+function* checkLoginSaga(action: PayloadAction<CheckLoginProps>) {
   const { payload } = action;
 
   if (!payload) return;
-  const token = payload;
+  const { token } = payload;
+
   const checkRes = yield call(authAPI.check, token);
 
   if (checkRes.status === 200) {
-    const uid = checkRes.data.data;
-    yield put(loginSuccess({ id: uid }));
+    const id = checkRes.data.data;
+    yield put(authSlice.actions.LOGIN_SUCCESS({ id }));
   } else {
-    yield put(loginFailure());
+    yield put(authSlice.actions.LOGIN_FAILURE());
   }
 }
 
-function* logoutSaga(action: Logout) {
+function* logoutSaga(action: Action) {
   const state = yield select();
 
   const uid = state.auth.user.id;
   const logoutRes = yield call(authAPI.logout, uid);
 
   if (logoutRes.status === 200) {
-    yield put(logoutSuccess());
+    yield put(authSlice.actions.LOGOUT_SUCCESS());
   } else {
-    yield put(logoutFailure());
+    yield put(authSlice.actions.LOGOUT_FAILURE());
   }
 }
 
 export function* authSaga() {
-  yield takeLatest(authActionTypes.REGISTER, registerSaga);
-  yield takeLatest(authActionTypes.LOGIN, loginSaga);
-  yield takeLatest(authActionTypes.CHECK_LOGIN, checkLoginSaga);
-  yield takeLatest(authActionTypes.LOGOUT, logoutSaga);
+  const { REGISTER, LOGIN, CHECK_LOGIN, LOGOUT } = authSlice.actions;
+
+  yield takeLatest(REGISTER, registerSaga);
+  yield takeLatest(LOGIN, loginSaga);
+  yield takeLatest(CHECK_LOGIN, checkLoginSaga);
+  yield takeLatest(LOGOUT, logoutSaga);
 }
 
 // auth reducer
-const auth = (state = initialState, action: authActions): authState => {
-  switch (action.type) {
-    case authActionTypes.REGISTER:
-      return {
-        ...state,
-        user: action.payload,
-      };
-    case authActionTypes.LOGIN_SUCCESS:
-      const uid = action.uid;
-      return {
-        ...state,
-        user: { id: uid, name: "" },
-        isLogined: true,
-      };
-    case authActionTypes.LOGIN_FAILURE:
-      return {
-        ...state,
-        user: null,
-        isLogined: false,
-      };
-    case authActionTypes.LOGOUT_SUCCESS:
-      return {
-        ...state,
-        user: null,
-        isLogined: false,
-      };
-    case authActionTypes.LOGOUT_FAILURE:
-      return {
-        ...state,
-        user: null,
-        isLogined: false,
-      };
-    default:
-      return {
-        ...state,
-      };
-  }
+const auth = {
+  REGISTER: (
+    state: authState,
+    { payload: { id, name } }: PayloadAction<User>
+  ) => {
+    return {
+      ...state,
+      user: {
+        id,
+        name,
+      },
+    };
+  },
+  LOGIN: (state: authState, { payload: { id } }: PayloadAction<LoginProps>) => {
+    return {
+      user: null,
+      isLogined: false,
+    };
+  },
+  LOGIN_SUCCESS: (
+    state: authState,
+    { payload: { id } }: PayloadAction<LoginProps>
+  ) => ({
+    ...state,
+    user: { id, name: "" },
+    isLogined: true,
+  }),
+  LOGIN_FAILURE: (state: authState, action: Action) => ({
+    user: null,
+    isLogined: false,
+  }),
+  CHECK_LOGIN: (
+    state: authState,
+    { payload: { token } }: PayloadAction<CheckLoginProps>
+  ) => ({
+    user: null,
+    isLogined: false,
+  }),
+  LOGOUT: (state: authState, action: Action) => {},
+  LOGOUT_SUCCESS: (state: authState, action: Action) => ({
+    user: null,
+    isLogined: false,
+  }),
+  LOGOUT_FAILURE: (state: authState, action: Action) => ({
+    user: null,
+    isLogined: false,
+  }),
 };
 
-export default auth;
+const authSlice = createSlice({
+  reducers: auth,
+  initialState: initialState,
+  name: prefix,
+});
+
+export default authSlice;
+// export default auth;

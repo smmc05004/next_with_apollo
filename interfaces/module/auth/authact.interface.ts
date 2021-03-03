@@ -18,12 +18,16 @@ export interface Register {
 
 export interface Login {
   type: authActionTypes.LOGIN;
-  payload: string;
+  payload: {
+    id: string;
+  };
 }
 
 export interface LoginSuccess {
   type: authActionTypes.LOGIN_SUCCESS;
-  uid: string;
+  payload: {
+    id: string;
+  };
 }
 
 export interface LoginFailure {
@@ -44,7 +48,7 @@ export interface LogoutFailure {
 
 export interface CheckLogin {
   type: authActionTypes.CHECK_LOGIN;
-  payload: string;
+  payload: { token: string };
 }
 
 export type authActions =

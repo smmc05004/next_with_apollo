@@ -4,7 +4,7 @@ import { AnyAction } from "redux";
 import { combineReducers } from "@reduxjs/toolkit";
 import { all } from "redux-saga/effects";
 import loading from "./loading";
-import auth, { authSaga } from "./auth";
+import authSlice, { authSaga } from "./auth";
 import post, { postSaga } from "./post";
 // import stock, { stockSaga } from "./stock";
 import stockSlice, { stockSaga } from "./stock";
@@ -26,7 +26,7 @@ const rootReducer = (
   } else {
     const combineReducer = combineReducers({
       loading,
-      auth,
+      auth: authSlice.reducer,
       post,
       // stock,
       stock: stockSlice.reducer,

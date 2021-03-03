@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import GoogleAuth from "../oauth/googleAuth";
 import { RootStateInterface } from "../../interfaces/rootState";
-import { logout } from "../../modules/auth";
+// import { logout } from "../../modules/auth";
+import authSlice from "../../modules/auth";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -42,7 +43,7 @@ const Header = () => {
   );
 
   const onLogout = () => {
-    dispatch(logout());
+    dispatch(authSlice.actions.LOGOUT());
   };
 
   return (

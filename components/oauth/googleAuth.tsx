@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
-import { register, login } from "../../modules/auth";
+// import { register, login } from "../../modules/auth";
+import authSlice from "../../modules/auth";
+
 import { AuthType } from "../../interfaces/module/auth/auth.interface";
 
 const AuthBtn = styled.button`
@@ -17,14 +19,14 @@ const GoogleAuth = ({ authType }: AuthType) => {
   const onLogin = (response: any) => {
     const profile = response.profileObj;
     const id = profile.googleId;
-    dispatch(login({ id }));
+    dispatch(authSlice.actions.LOGIN({ id }));
   };
 
   const onRegister = (response: any) => {
     const profile = response.profileObj;
     const id = profile.googleId;
     const name = profile.name;
-    dispatch(register({ id, name }));
+    dispatch(authSlice.actions.REGISTER({ id, name }));
   };
 
   const onFailure = (error: any): void => {

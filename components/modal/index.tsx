@@ -112,7 +112,8 @@ const Modal = ({ open, setOpen, onSubmit, list, totalCnt }: Props) => {
         </BtnSection>
       </FormEl>
 
-      <StockList list={list} totalCnt={totalCnt} />
+      {/* <StockList list={list} totalCnt={totalCnt} /> */}
+      <StockList />
     </Wrapper>
   );
 };
