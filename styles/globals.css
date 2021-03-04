@@ -219,3 +219,18 @@ a {
     transform: translate(0, 5px);
   }
 }
+
+.map-wrapper {
+  position: relative;
+  text-align: center;
+}
+.map-layer {
+  fill: #08304b;
+  stroke: #021019;
+  stroke-width: 1px;
+}
+.background {
+  /* fill: #021019; */
+  fill: transparent;
+  pointer-events: all;
+}

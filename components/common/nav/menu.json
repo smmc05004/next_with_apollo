@@ -1,0 +1,12 @@
+{
+  "menuArr": [
+    {
+      "menu": "POST",
+      "href": "/post"
+    },
+    {
+      "menu": "STOCK",
+      "href": "/stock"
+    }
+  ]
+}

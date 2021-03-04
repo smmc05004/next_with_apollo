@@ -9,8 +9,9 @@ import { PostData } from "../../interfaces/module/post/post.interface";
 import { PostList } from "../../components";
 import { GetServerSideProps } from "next";
 import wrapper from "../../store";
-import { checkLogin } from "../../modules/auth";
+// import { checkLogin } from "../../modules/auth";
 import { END } from "redux-saga";
+import authSlice from "../../modules/auth";
 
 const PostWrapper = styled.div`
   width: 300px;
@@ -188,10 +189,11 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   async (context: any) => {
     const { req } = context;
 
-    if (req.cookies) {
+    if (req.cookies && req.cookies["my-cookie"]) {
       // console.log("coockie: ", req.cookies["my-cookie"]);
       const token = req.cookies["my-cookie"];
-      context.store.dispatch(checkLogin({ token }));
+      // context.store.dispatch(checkLogin({ token }));
+      context.store.dispatch(authSlice.actions.CHECK_LOGIN({ token }));
     } else {
       console.log("로그인 필요");
     }

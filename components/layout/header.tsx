@@ -5,8 +5,9 @@ import GoogleAuth from "../oauth/googleAuth";
 import { RootStateInterface } from "../../interfaces/rootState";
 // import { logout } from "../../modules/auth";
 import authSlice from "../../modules/auth";
+import NavWrapper from "../common/nav/navWrapper";
 
-const Wrapper = styled.div`
+const Wrapper = styled.header`
   width: 100%;
   height: 30px;
   display: flex;
@@ -15,6 +16,7 @@ const Wrapper = styled.div`
 `;
 
 const MenuWrapper = styled.div`
+  width: 20%;
   height: 100%;
 `;
 
@@ -53,6 +55,9 @@ const Header = () => {
           <Anchor>Home</Anchor>
         </Link>
       </MenuWrapper>
+
+      <NavWrapper />
+
       <MenuWrapper>
         {isLogined === true ? (
           <LogoutBtn onClick={onLogout}>로그아웃</LogoutBtn>

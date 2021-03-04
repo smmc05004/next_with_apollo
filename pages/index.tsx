@@ -2,7 +2,6 @@ import { GetServerSideProps } from "next";
 import { END } from "redux-saga";
 import { useSelector } from "react-redux";
 import { Loading } from "../components";
-import LoadingBtn from "../components/loadingBtn";
 import { RootStateInterface } from "../interfaces/rootState";
 import wrapper from "../store";
 // import { checkLogin } from "../modules/auth";
@@ -19,7 +18,6 @@ const Home = () => {
   return (
     <div>
       <div>Home 페이지</div>
-      <LoadingBtn />
       {loading && <Loading />}
     </div>
   );
@@ -29,10 +27,8 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   async (context: any) => {
     const { req } = context;
 
-    if (req.cookies) {
-      // console.log("coockie: ", req.cookies["my-cookie"]);
+    if (req.cookies && req.cookies["my-cookie"]) {
       const token = req.cookies["my-cookie"];
-      // context.store.dispatch(checkLogin({ token }));
       context.store.dispatch(authSlice.actions.CHECK_LOGIN({ token }));
     } else {
       console.log("로그인 필요");
