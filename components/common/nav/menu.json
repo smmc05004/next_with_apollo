@@ -7,6 +7,10 @@
     {
       "menu": "STOCK",
       "href": "/stock"
+    },
+    {
+      "menu": "TRIP",
+      "href": "/trip"
     }
   ]
 }

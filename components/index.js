@@ -19,6 +19,10 @@ import Modal from "./modal";
 import StockList from "./list/stock/stockList";
 import StockItem from "./list/stock/stockItem";
 
+// trip
+import Nation from "./map/nation";
+import Region from "./map/region";
+
 export {
   Header,
   Footer,
@@ -29,4 +33,6 @@ export {
   Modal,
   StockList,
   StockItem,
+  Nation,
+  Region,
 };
