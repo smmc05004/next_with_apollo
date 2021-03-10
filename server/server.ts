@@ -3,6 +3,8 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import express from "express";
 
+const sequelize = require("../models").sequelize;
+
 dotenv.config();
 
 const dev = process.env.NODE_ENV !== "production";
@@ -14,8 +16,10 @@ const apiRouter = require("./api");
 nextapp
   .prepare()
   .then(() => {
-    const port = 8081;
+    const port = 8080;
     const app = express();
+
+    sequelize.sync();
 
     app.use(morgan("dev"));
     app.use(express.json());
