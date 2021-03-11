@@ -7,18 +7,36 @@ import wrapper from "../store";
 // import { checkLogin } from "../modules/auth";
 import authSlice from "../modules/auth";
 import { loadingState } from "../interfaces/module/loading/loading.interface";
+import { initializeApollo } from "../lib/apolloClient";
+// import apolloClient from "../lib/apolloClient";
+import { useQuery, gql } from "@apollo/client";
+
+const GET_MEMBERS = gql`
+  query {
+    members {
+      firstName
+      lastName
+    }
+  }
+`;
 
 interface HomeVars extends loadingState {}
 
-const Home = () => {
-  const { loading }: HomeVars = useSelector((state: RootStateInterface) => ({
-    loading: state.loading.loading,
-  }));
+const Home = (props: any) => {
+  console.log("props: ", props);
+  // const { loading }: HomeVars = useSelector((state: RootStateInterface) => ({
+  //   loading: state.loading.loading,
+  // }));
+  const { loading, error, data } = useQuery(GET_MEMBERS);
+  console.log("data: ", data);
 
   return (
     <div>
-      <div>Home 페이지</div>
-      {loading && <Loading />}
+      {data &&
+        data.members &&
+        data.members.map((member: any) => {
+          return <div key={member.firstName}>{member.firstName}</div>;
+        })}
     </div>
   );
 };
@@ -36,6 +54,18 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
 
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();
+
+    const apolloClient = initializeApollo(null);
+
+    await apolloClient.query({
+      query: GET_MEMBERS,
+    });
+
+    return {
+      props: {
+        initialApolloState: apolloClient.cache.extract(),
+      },
+    };
   }
 );
 

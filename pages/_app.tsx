@@ -6,16 +6,25 @@ import wrapper from "../store";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
+import { ApolloProvider } from "@apollo/client";
+import { useApollo } from "../lib/apolloClient";
+// import apolloClient from "../lib/apolloClient";
+
 const GlobalStyle = createGlobalStyle`
   ${reset}
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const apolloClient = useApollo(pageProps.initialApolloState);
+
   return (
     <>
       <Header />
       <GlobalStyle />
-      <Component {...pageProps} />
+      <ApolloProvider client={apolloClient}>
+        {/* <ApolloProvider client={apolloClient}> */}
+        <Component {...pageProps} />
+      </ApolloProvider>
       <Footer />
     </>
   );

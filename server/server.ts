@@ -2,11 +2,9 @@ import next from "next";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import express from "express";
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
 import schema from "../schemas";
 import resolvers from "../resolvers";
-
-const sequelize = require("../models").sequelize;
 
 dotenv.config();
 

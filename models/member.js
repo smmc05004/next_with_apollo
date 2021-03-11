@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     get fullName() {
-      console.log("get full name: ");
+      console.log("get full name: ", this.firstName + " " + this.lastName);
     }
   }
   Member.init(

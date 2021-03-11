@@ -4,7 +4,7 @@ import { connection } from "../../db/connection";
 import { getToken, verifyToken } from "./jwt";
 import { getUserSql, addUserSql } from "../../db/query/auth";
 
-const Member = require("../../../models").Member;
+// const Member = require("../../../models").Member;
 
 const AuthRouter = express.Router();
 
@@ -40,8 +40,8 @@ AuthRouter.post("/user", (req: Request, res: Response) => {
 AuthRouter.post("/login", async (req: Request, res: Response) => {
   const uid = req.body.uid;
   const selectQuery = getUserSql({ userId: uid });
-  const members = await Member.findAll();
-  console.log("members: ", members);
+  // const members = await Member.findAll();
+  // console.log("members: ", members);
 
   connection.query(selectQuery, (err: mysql.MysqlError, queryRes: any) => {
     if (err) throw err;
