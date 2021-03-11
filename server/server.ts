@@ -3,8 +3,9 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
+// import schema from "../schemas";
+// import resolvers from "../resolvers";
 import schema from "../schemas";
-import resolvers from "../resolvers";
 
 dotenv.config();
 
@@ -41,8 +42,9 @@ nextapp
     app.use("/api", apiRouter);
 
     const apolloServer = new ApolloServer({
-      typeDefs: schema,
-      resolvers,
+      // typeDefs: schema,
+      // resolvers,
+      schema,
     });
 
     apolloServer.applyMiddleware({

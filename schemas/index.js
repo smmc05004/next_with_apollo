@@ -1,15 +1,22 @@
-import { gql } from 'apollo-server-express';
+import { gql, makeExecutableSchema } from "apollo-server-express";
+import memberResolver from "./resolvers/member.resolver";
+import memberSchema from "./types/memeber.schema";
 
-const schema = gql`
-    type Query {
-        ping: String
-        members: [member]
-    }
-
-    type member {
-        firstName: String,
-        lastName: String
-    }
+const RootSchema = gql`
+  type Query {
+    root: String
+  }
 `;
+
+const RootResolver = {
+  Query: {
+    root: () => "running!",
+  },
+};
+
+const schema = makeExecutableSchema({
+  typeDefs: [RootSchema, memberSchema],
+  resolvers: [RootResolver, memberResolver],
+});
 
 export default schema;
