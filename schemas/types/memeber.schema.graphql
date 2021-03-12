@@ -1,0 +1,9 @@
+type member {
+  firstName: String
+  lastName: String
+}
+
+type Query {
+  ping: String
+  members: [member]
+}

@@ -6,7 +6,7 @@ const memberSchema = gql`
     lastName: String
   }
 
-  extend type Query {
+  type Query {
     ping: String
     members: [member]
   }

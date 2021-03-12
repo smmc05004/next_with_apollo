@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "user",
-    "password": "passwd",
-    "database": "cip_manager",
-    "host": "10.3.1.239",
-    "port": 7777,
+    "username": "user1",
+    "password": "zxcv1234",
+    "database": "test",
+    "host": "localhost",
+    "port": 3307,
     "dialect": "mysql"
   },
   "test": {
