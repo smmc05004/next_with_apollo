@@ -1,0 +1,8 @@
+type Todo {
+  todo_id: Int
+  todo: String
+}
+
+type Query {
+  todos: [Todo]
+}

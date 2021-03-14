@@ -1,7 +1,7 @@
 "use strict";
 const { Model, Sequelize } = require("sequelize");
 // module.exports = (sequelize, DataTypes) => {
-//   class Member extends Model {
+//   class Todo extends Model {
 //     /**
 //      * Helper method for defining associations.
 //      * This method is not a part of Sequelize lifecycle.
@@ -9,51 +9,50 @@ const { Model, Sequelize } = require("sequelize");
 //      */
 //     static associate(models) {
 //       // define association here
-//       this.hasMany(models.post);
+//       this.belongsTo(models.member, {foreignKey: 'member_id'})
 //     }
 //   }
-//   Member.init(
+//   Todo.init(
 //     {
-//       firstName: DataTypes.STRING,
-//       lastName: DataTypes.STRING,
+//       todo: DataTypes.STRING,
 //     },
 //     {
 //       sequelize,
-//       modelName: "Member",
+//       modelName: "Todo",
 //       timestamps: false,
 //       paranoid: false,
-//       tableName: "member"
+//       tableName: "todo"
 //     }
 //   );
-//   return Member;
+//   return Todo;
 // };
 
 module.exports = (sequelize, DataTypes) => {
-  const Member = sequelize.define(
-    "member",
+  const Todo = sequelize.define(
+    "todo",
     {
-      member_id: {
+      todo_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
       },
-      firstName: Sequelize.STRING,
-      lastName: Sequelize.STRING,
-    },
-    {
+      todo: Sequelize.STRING,
+      member_id: Sequelize.INTEGER
+    }, {
       sequelize,
-      modelName: "Member",
+      modelName: "Todo",
       timestamps: false,
-      tableName: "member"
+      paranoid: false,
+      tableName: "todo"
     }
   )
 
-  Member.associate = function (models) {
-    Member.hasMany(models.todo, {
+  Todo.associate = function (models) {
+    Todo.belongsTo(models.member, {
       foreignKey: "member_id",
-      sourceKey: "member_id"
+      targetKey: "member_id"
     })
   }
-  
-  return Member;
-};
+
+  return Todo;
+}

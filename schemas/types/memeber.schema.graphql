@@ -1,4 +1,5 @@
 type member {
+  member_id: Int
   firstName: String
   lastName: String
 }
