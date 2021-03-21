@@ -1,58 +1,34 @@
 "use strict";
 const { Model, Sequelize } = require("sequelize");
-// module.exports = (sequelize, DataTypes) => {
-//   class Todo extends Model {
-//     /**
-//      * Helper method for defining associations.
-//      * This method is not a part of Sequelize lifecycle.
-//      * The `models/index` file will call this method automatically.
-//      */
-//     static associate(models) {
-//       // define association here
-//       this.belongsTo(models.member, {foreignKey: 'member_id'})
-//     }
-//   }
-//   Todo.init(
-//     {
-//       todo: DataTypes.STRING,
-//     },
-//     {
-//       sequelize,
-//       modelName: "Todo",
-//       timestamps: false,
-//       paranoid: false,
-//       tableName: "todo"
-//     }
-//   );
-//   return Todo;
-// };
-
 module.exports = (sequelize, DataTypes) => {
-  const Todo = sequelize.define(
-    "todo",
+  class Todo extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      this.belongsTo(models.User, {foreignKey: 'user_num', targetKey: 'user_num', as: 'user'})
+    }
+  }
+  Todo.init(
     {
       todo_id: {
-        type: Sequelize.INTEGER,
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
+        type: DataTypes.INTEGER
       },
-      todo: Sequelize.STRING,
-      member_id: Sequelize.INTEGER
-    }, {
+      todo: DataTypes.STRING,
+    },
+    {
       sequelize,
       modelName: "Todo",
       timestamps: false,
       paranoid: false,
       tableName: "todo"
     }
-  )
-
-  Todo.associate = function (models) {
-    Todo.belongsTo(models.member, {
-      foreignKey: "member_id",
-      targetKey: "member_id"
-    })
-  }
-
+  );
   return Todo;
-}
+};

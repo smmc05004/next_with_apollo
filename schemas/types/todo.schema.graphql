@@ -1,0 +1,16 @@
+type User {
+  user_num: Int
+  user_id: String
+  user_name: String
+}
+
+type Todo {
+  todo_id: Int
+  todo: String
+  user: User
+}
+
+type Query {
+  todos: [Todo]
+  todo(todo_id: ID): Todo
+}

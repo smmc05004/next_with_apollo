@@ -1,8 +1,10 @@
-const Todo = require("../../models").todo;
+const Todo = require("../../models").Todo;
+const User = require("../../models").User;
 
 module.exports = {
   Query: {
     todos: async () => await getTodos(),
+    todo: async () => await Todo.findOne({todo_id: 1, include: [{model: User, as: 'user'}]},)
   },
 };
 
