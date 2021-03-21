@@ -1,4 +1,4 @@
-const User = require("../../models").User;
+const User = require("../../sqlz/models").User;
 
 module.exports = {
   Query: {

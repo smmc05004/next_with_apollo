@@ -1,5 +1,5 @@
-const Todo = require("../../models").Todo;
-const User = require("../../models").User;
+const Todo = require("../../sqlz/models").Todo;
+const User = require("../../sqlz/models").User;
 
 module.exports = {
   Query: {
