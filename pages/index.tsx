@@ -44,7 +44,8 @@ const ADD_USER = gql`
 interface HomeVars extends loadingState {}
 
 const Home = (props: any) => {
-  // console.log("props: ", props);
+  console.log("props: ", props);
+
   const [userId, setUserId] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [addUser, { data }] = useMutation(ADD_USER);
@@ -100,9 +101,10 @@ const Home = (props: any) => {
   );
 };
 
-export async function getServerSideProps() {
-  const res = "aaaa";
-  const data = res;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { data } = await client.query({
+    query: GET_USERS,
+  });
 
   if (!data) {
     return {
@@ -115,5 +117,6 @@ export async function getServerSideProps() {
       data,
     },
   };
-}
+};
+
 export default Home;
