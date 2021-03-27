@@ -2,7 +2,6 @@ import App from "next/app";
 import "../styles/globals.css";
 import { AppProps, AppContext } from "next/app"; // 타입 임포트
 import { Header, Footer } from "../components";
-import wrapper from "../store";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
@@ -42,4 +41,4 @@ function MyApp({ Component, pageProps }: AppProps) {
 //   return { ...appProps };
 // };
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;

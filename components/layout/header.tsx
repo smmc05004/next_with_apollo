@@ -1,10 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
 import GoogleAuth from "../oauth/googleAuth";
 import { RootStateInterface } from "../../interfaces/rootState";
-// import { logout } from "../../modules/auth";
-import authSlice from "../../modules/auth";
 import NavWrapper from "../common/nav/navWrapper";
 
 const Wrapper = styled.header`
@@ -37,15 +34,8 @@ interface HeaderVars {
 }
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const { isLogined }: HeaderVars = useSelector(
-    (state: RootStateInterface) => ({
-      isLogined: state.auth.isLogined,
-    })
-  );
-
   const onLogout = () => {
-    dispatch(authSlice.actions.LOGOUT());
+    console.log("로그아웃");
   };
 
   return (
@@ -59,14 +49,8 @@ const Header = () => {
       <NavWrapper />
 
       <MenuWrapper>
-        {isLogined === true ? (
-          <LogoutBtn onClick={onLogout}>로그아웃</LogoutBtn>
-        ) : (
-          <>
-            <GoogleAuth authType="login" />
-            <GoogleAuth authType="register" />
-          </>
-        )}
+        <GoogleAuth authType="login" />
+        <GoogleAuth authType="register" />
       </MenuWrapper>
     </Wrapper>
   );

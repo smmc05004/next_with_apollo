@@ -7,7 +7,7 @@ import {
 } from "@apollo/client";
 import merge from "deepmerge";
 
-let apolloClient: ApolloClient<NormalizedCacheObject> = null;
+let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 
 function createApolloClient() {
   return new ApolloClient({

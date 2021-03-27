@@ -1,8 +1,5 @@
 import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
-import { useDispatch } from "react-redux";
-// import { register, login } from "../../modules/auth";
-import authSlice from "../../modules/auth";
 
 import { AuthType } from "../../interfaces/module/auth/auth.interface";
 
@@ -14,19 +11,17 @@ const AuthBtn = styled.button`
 `;
 
 const GoogleAuth = ({ authType }: AuthType) => {
-  const dispatch = useDispatch();
-
   const onLogin = (response: any) => {
     const profile = response.profileObj;
     const id = profile.googleId;
-    dispatch(authSlice.actions.LOGIN({ id }));
+    console.log("로그인");
   };
 
   const onRegister = (response: any) => {
     const profile = response.profileObj;
     const id = profile.googleId;
     const name = profile.name;
-    dispatch(authSlice.actions.REGISTER({ id, name }));
+    console.log("회원가입");
   };
 
   const onFailure = (error: any): void => {
