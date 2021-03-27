@@ -13,5 +13,5 @@ type Todo {
 
 type Query {
   todos: [Todo]
-  todoById(todo_id: Int): Todo
+  todoById(todo_id: Int!): Todo
 }

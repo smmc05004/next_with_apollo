@@ -69,6 +69,7 @@ import {
   Model,
   ForeignKey,
   HasMany,
+  PrimaryKey,
 } from "sequelize-typescript";
 import Todo from "./todo.model";
 
@@ -92,7 +93,8 @@ export default class User extends Model {
   @Column
   user_name!: string;
 
-  @Column({ primaryKey: true })
+  @PrimaryKey
+  @Column
   @ForeignKey(() => Todo)
   user_num!: number;
   // @HasMany(() => Todo, ForeignKey: "user_num")

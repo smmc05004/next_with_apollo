@@ -6,7 +6,7 @@ import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../lib/apolloClient";
+import { client } from "../lib/apolloClient";
 // import apolloClient from "../lib/apolloClient";
 
 const GlobalStyle = createGlobalStyle`
@@ -14,14 +14,13 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const apolloClient = useApollo(pageProps.initialApolloState);
+  // const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
     <>
       <Header />
       <GlobalStyle />
-      <ApolloProvider client={apolloClient}>
-        {/* <ApolloProvider client={apolloClient}> */}
+      <ApolloProvider client={client}>
         <Component {...pageProps} />
       </ApolloProvider>
       <Footer />
