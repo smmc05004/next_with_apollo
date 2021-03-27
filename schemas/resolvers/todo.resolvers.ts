@@ -1,7 +1,7 @@
-// const models = require("../../sqlz/models");
-
-import { Todo } from "../../sqlz/models/todo";
-import { User } from "../../sqlz/models/user";
+const models = require("../../sqlz/models");
+const { Todo, User } = models.default.models;
+// import Todo from "../../sqlz/models/todo.model";
+// import User from "../../sqlz/models/user.model";
 
 interface Props {
   todo_id: number;

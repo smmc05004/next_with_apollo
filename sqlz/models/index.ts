@@ -58,8 +58,8 @@
 // module.exports = db;
 
 import { Sequelize } from "sequelize-typescript";
-import { User } from "./user";
-import { Todo } from "./todo";
+// import { User } from "./user";
+// import { Todo } from "./todo";
 
 const sequelize = new Sequelize({
   database: "test",
@@ -67,9 +67,9 @@ const sequelize = new Sequelize({
   username: "user1",
   password: "zxcv1234",
   host: "localhost",
-  port: 3307,
-  // models: [__dirname + "/models"],
-  models: [User, Todo],
+  port: 3306,
+  models: [__dirname + "/*.model.ts"],
+  // models: [User, Todo],
 });
 
 export default sequelize;

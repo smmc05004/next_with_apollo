@@ -6,13 +6,13 @@ import {
   BelongsTo,
   ForeignKey,
 } from "sequelize-typescript";
-import { User } from "./user";
+import User from "./user.model";
 
 @Table({
   tableName: "todo",
   timestamps: false,
 })
-export class Todo extends Model {
+export default class Todo extends Model {
   @PrimaryKey
   @Column
   todo_id!: number;

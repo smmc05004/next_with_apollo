@@ -70,7 +70,7 @@ import {
   ForeignKey,
   HasMany,
 } from "sequelize-typescript";
-import { Todo } from "./todo";
+import Todo from "./todo.model";
 
 // column error because typescript 2.7.2 included a strict class checking
 // constructor가 없으면 각 column들에서 타입 에러 발생
@@ -78,7 +78,7 @@ import { Todo } from "./todo";
   tableName: "user",
   timestamps: false,
 })
-export class User extends Model {
+export default class User extends Model {
   // constructor(user_id: string, user_name: string, user_num: number) {
   //   super();
 

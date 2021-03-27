@@ -1,7 +1,5 @@
-// const models = require("../../sqlz/models");
-// console.log("models: ", models);
-// const User = require("../../sqlz/models").User;
-import { User } from "../../sqlz/models/user";
+const models = require("../../sqlz/models");
+const { User } = models.default.models;
 
 module.exports = {
   Query: {
