@@ -2,7 +2,7 @@ const setCookie = (token: string) => {
   const d = new Date();
   d.setTime(d.getTime() + 1000 * 60 * 60 * 24 * 7);
   const exp = "expires=" + d.toUTCString();
-  console.log("cookie: ", "myCookies=" + token + ";" + exp + ";path=/");
+  // console.log("cookie: ", "myCookies=" + token + ";" + exp + ";path=/");
 
   document.cookie = "myCookies=" + token + ";" + exp + ";path=/";
 };
@@ -18,7 +18,7 @@ const getCookie = (cookie: any) => {
     }
 
     if (c.indexOf(cname) == 0) {
-      console.log("getCookie: ", c.substring(cname.length, c.length));
+      // console.log("getCookie: ", c.substring(cname.length, c.length));
       return c.substring(cname.length, c.length);
     }
   }

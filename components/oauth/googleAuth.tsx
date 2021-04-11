@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
 import { AuthType } from "../../interfaces/module/auth/auth.interface";
-import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { getToken } from "../../lib/jwt";
 import { setCookie } from "../../lib/cookie";
 import { client } from "../../lib/apolloClient";
@@ -52,6 +52,12 @@ const AuthBtn = styled.button`
   padding: 5px;
 `;
 
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+
 const GoogleAuth = ({ authType }: AuthType) => {
   const [login, loginParam] = useMutation(LOGIN_USER, {
     onCompleted({ login }) {
@@ -61,6 +67,9 @@ const GoogleAuth = ({ authType }: AuthType) => {
       setCookie(token);
     },
   });
+
+  const { data } = useQuery(IS_LOGGED_IN);
+  console.log("header data: ", data);
 
   const [addUser, addParams] = useMutation(ADD_USER);
 

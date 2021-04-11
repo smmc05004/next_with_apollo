@@ -9,7 +9,7 @@ import { useQuery, useLazyQuery, gql, useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { verifyToken } from "../lib/jwt";
 import { getCookie } from "../lib/cookie";
-
+import { client, isLoggedInVar } from "../lib/apolloClient";
 // const GET_TODO_BY_ID = gql`
 //   query($todo_id: Int!) {
 //     todoById(todo_id: $todo_id) {
@@ -53,6 +53,12 @@ const GET_USER_BY_ID = gql`
 //   }
 // `;
 
+const IS_LOGGED_IN = gql`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }
+`;
+
 interface HomeVars extends loadingState {}
 
 // const Home = (props: any) => {
@@ -60,13 +66,15 @@ const Home = () => {
   // console.log("props: ", props);
   // const [loginQuery, { called, loading, data }] = useLazyQuery(GET_USER_BY_ID);
 
+  console.log("home cache: ", client.cache);
+
   const [userId, setUserId] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   // const [addUser, { data }] = useMutation(ADD_USER);
   // console.log("login data: ", data);
   // console.log("mutation data: ", data);
-  const { data } = useQuery(GET_USERS);
-  console.log("data: ", data);
+  // const { data } = useQuery(GET_USERS);
+  // console.log("data: ", data);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -127,6 +135,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     const res = verifyToken(myCookie);
     console.log("token veri res: ", res);
+    isLoggedInVar(true);
   }
 
   // const { data } = await client.query({
