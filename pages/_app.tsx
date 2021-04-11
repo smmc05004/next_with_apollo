@@ -18,9 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Header />
       <GlobalStyle />
       <ApolloProvider client={client}>
+        <Header />
         <Component {...pageProps} />
       </ApolloProvider>
       <Footer />

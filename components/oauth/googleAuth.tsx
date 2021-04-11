@@ -1,7 +1,49 @@
 import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
-
 import { AuthType } from "../../interfaces/module/auth/auth.interface";
+import { gql, useLazyQuery, useMutation } from "@apollo/client";
+import { getToken } from "../../lib/jwt";
+import { setCookie } from "../../lib/cookie";
+import { client } from "../../lib/apolloClient";
+
+const GET_USER_BY_ID = gql`
+  query($user_id: String!) {
+    user(user_id: $user_id) {
+      user_num
+      user_id
+      user_name
+    }
+  }
+`;
+
+const ADD_USER = gql`
+  mutation($user_id: String!, $user_name: String!) {
+    addUser(user_id: $user_id, user_name: $user_name) {
+      user_id
+      user_name
+    }
+  }
+`;
+
+const GET_USERS = gql`
+  query {
+    users {
+      user_num
+      user_id
+      user_name
+    }
+  }
+`;
+
+const LOGIN_USER = gql`
+  mutation($user_id: String!) {
+    login(user_id: $user_id) {
+      user_num
+      user_id
+      user_name
+    }
+  }
+`;
 
 const AuthBtn = styled.button`
   background-color: white;
@@ -11,17 +53,32 @@ const AuthBtn = styled.button`
 `;
 
 const GoogleAuth = ({ authType }: AuthType) => {
+  const [login, loginParam] = useMutation(LOGIN_USER, {
+    onCompleted({ login }) {
+      console.log(login.user_id);
+
+      const token = getToken(login.user_id);
+      setCookie(token);
+    },
+  });
+
+  const [addUser, addParams] = useMutation(ADD_USER);
+
+  const result = client.readQuery({ query: GET_USERS });
+  console.log("header: ", result);
+
+  console.log("header cache: ", client.cache);
+
   const onLogin = (response: any) => {
     const profile = response.profileObj;
-    const id = profile.googleId;
-    console.log("로그인");
+    const { googleId } = profile;
+    login({ variables: { user_id: googleId } });
   };
 
   const onRegister = (response: any) => {
     const profile = response.profileObj;
-    const id = profile.googleId;
-    const name = profile.name;
-    console.log("회원가입");
+    const { googleId, name } = profile;
+    addUser({ variables: { user_id: googleId, user_name: name } });
   };
 
   const onFailure = (error: any): void => {
