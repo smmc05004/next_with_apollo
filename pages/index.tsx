@@ -7,6 +7,20 @@ import wrapper from "../store";
 // import { checkLogin } from "../modules/auth";
 import authSlice from "../modules/auth";
 import { loadingState } from "../interfaces/module/loading/loading.interface";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  background-image: url("/imgs/main.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
 
 interface HomeVars extends loadingState {}
 
@@ -16,10 +30,10 @@ const Home = () => {
   }));
 
   return (
-    <div>
-      <div>Home 페이지</div>
+    <Wrapper>
+      <Background></Background>
       {loading && <Loading />}
-    </div>
+    </Wrapper>
   );
 };
 

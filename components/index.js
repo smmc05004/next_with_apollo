@@ -1,5 +1,5 @@
 // layout
-import Header from "./layout/header";
+import MenuBar from "./layout/MenuBar";
 import Footer from "./layout/footer";
 
 // common
@@ -24,7 +24,7 @@ import Nation from "./map/nation";
 import Region from "./map/region";
 
 export {
-  Header,
+  MenuBar,
   Footer,
   Button,
   GoogleAuth,

@@ -56,7 +56,7 @@ function* registerSaga(action: PayloadAction<User>) {
 
 function* loginSaga(action: PayloadAction<LoginProps>) {
   const { payload } = action;
-
+  console.log("payload: ", payload);
   if (!payload) return;
 
   const { id } = payload;

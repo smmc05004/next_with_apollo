@@ -14,7 +14,7 @@ const apiRouter = require("./api");
 nextapp
   .prepare()
   .then(() => {
-    const port = 8081;
+    const port = 8080;
     const app = express();
 
     app.use(morgan("dev"));

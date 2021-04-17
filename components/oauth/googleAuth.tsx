@@ -5,15 +5,21 @@ import { useDispatch } from "react-redux";
 import authSlice from "../../modules/auth";
 
 import { AuthType } from "../../interfaces/module/auth/auth.interface";
+import React from "react";
 
 const AuthBtn = styled.button`
-  background-color: white;
+  width: 50%;
+  background: transparent;
   border: none;
   cursor: pointer;
   padding: 5px;
+  margin: 5px;
+  font-size: 15px;
+  &:hover {
+  }
 `;
 
-const GoogleAuth = ({ authType }: AuthType) => {
+const GoogleAuth: React.FC<AuthType> = ({ authType }) => {
   const dispatch = useDispatch();
 
   const onLogin = (response: any) => {
@@ -42,7 +48,7 @@ const GoogleAuth = ({ authType }: AuthType) => {
       onFailure={onFailure}
       render={(renderProps) => (
         <AuthBtn onClick={renderProps.onClick}>
-          {authType === "login" ? "로그인" : "회원가입"}
+          {authType === "login" ? "LOGIN" : "SIGN UP"}
         </AuthBtn>
       )}
     />
