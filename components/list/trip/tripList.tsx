@@ -9,11 +9,14 @@ const ListWrapper = styled.div<{ active: boolean }>`
   left: 50%;
   transform: translate(-50%, 0);
   width: ${(props) => (props.active ? "100%" : "0px")};
-  height: ${(props) => (props.active ? "100%" : "0px")};
+  height: ${(props) => (props.active ? "70%" : "0px")};
   border: 0.5px solid black;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.6);
   transition: display, width 0.3s linear, height 0.3s 0.3s linear;
+  z-index: 1;
+
+  overflow-y: auto;
 `;
 
 const BtnSection = styled.section<{ active: boolean }>`

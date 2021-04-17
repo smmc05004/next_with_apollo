@@ -9,6 +9,12 @@ const MenuItem = styled.li`
   justify-content: center;
   padding: 5px;
   font-size: 15px;
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
 `;
 
 interface MenuProps {

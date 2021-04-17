@@ -12,13 +12,15 @@ const MenuBtnWrapper = styled.div<{ open: boolean }>`
   width: 30px;
   height: 30px;
   position: absolute;
-  top: 0;
-  left: 0;
-  display: ${({ open }) => (open ? "none" : "block")};
+  top: 20px;
+  left: ${({ open }) => (open ? "-50px" : "20px")};
+  z-index: 1;
+  transition: all 0.3s linear;
 
   .menu_btn {
     width: 100%;
     height: 100%;
+    cursor: pointer;
   }
 `;
 
@@ -29,6 +31,8 @@ const MenuWrapper = styled.div<{ open: boolean }>`
   top: 0;
   left: ${({ open }) => (open ? "0" : "-300px")};
   transition: all 0.3s linear;
+  border-right: 0.5px solid rgba(100, 100, 100, 1);
+  z-index: 2;
 
   .close_btn_wrapper {
     width: 100%;
@@ -37,6 +41,7 @@ const MenuWrapper = styled.div<{ open: boolean }>`
     .close_btn {
       width: 30px;
       height: 100%;
+      cursor: pointer;
     }
   }
 
@@ -48,12 +53,6 @@ const MenuWrapper = styled.div<{ open: boolean }>`
     align-items: center;
     margin-top: 30px;
   }
-`;
-
-const Anchor = styled.a`
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 30px;
 `;
 
 const LogoutBtn = styled.button`
