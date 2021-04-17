@@ -6,22 +6,19 @@ import { Feature, Geometry, GeoJsonProperties } from "geojson";
 import { geoPath } from "d3-geo";
 import { Nation, Region } from "../../components";
 
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: url("/imgs/trip.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
 const Wrapper = styled.div<{ detail: boolean }>`
   width: 100%;
-
-  ${({ detail }) => {
-    if (detail) {
-      return {
-        "display": "flex",
-        "justify-content": "center",
-        "align-items": "center",
-      };
-    } else {
-      return {
-        display: "block",
-      };
-    }
-  }}
+  height: 100%;
+  display: block;
 `;
 
 const Trip: NextPage = () => {
@@ -54,17 +51,14 @@ const Trip: NextPage = () => {
       .attr("d", detailPath);
   };
 
-  const init = () => {
+  useEffect(() => {
     setActiveRegion(0);
     setDetail(false);
-  };
-
-  useEffect(() => {
-    init();
   }, []);
 
   return (
     <Wrapper id="map-wrapper" detail={detail}>
+      <Background />
       <Nation activeRegion={activeRegion} onClick={onClick} detail={detail} />
       <Region
         setActiveRegion={setActiveRegion}

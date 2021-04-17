@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <Wrapper>
-      <Background></Background>
+      <Background />
       {loading && <Loading />}
     </Wrapper>
   );

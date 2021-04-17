@@ -9,14 +9,17 @@ import {
 import { geoPath } from "d3-geo";
 import MAP_GEOSON from "../../components/common/map.geo.json";
 
-const MapWrapper = styled.div<{ detail: boolean }>`
+const MapWrapper = styled.div`
   width: 50%;
   height: 100%;
   transition: all 0.3s linear;
   position: relative;
   top: 0;
-  left: ${({ detail }) => (detail ? "0" : "50%")};
-  transform: ${({ detail }) => (detail ? "none" : "translate(-50%, 0)")};
+  left: 50%;
+  transform: translate(-50%, 0);
+  .map {
+    background-color: rgba(250, 250, 250, 0.5);
+  }
 `;
 
 const Path = styled.path<{ myCode: number; activeCode: number }>`
@@ -49,8 +52,8 @@ const Nation = ({ activeRegion, onClick, detail }: Props) => {
     .translate([initialX, initialY]);
 
   return (
-    <MapWrapper detail={detail}>
-      <svg width={700} height={700}>
+    <MapWrapper>
+      <svg className="map" width={700} height={700}>
         <g>
           {(MAP_GEOSON as FeatureCollection).features.map((d, i) => {
             let id = d.properties ? d.properties.SGG_Code : 0;

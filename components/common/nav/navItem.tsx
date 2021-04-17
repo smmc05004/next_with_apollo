@@ -4,16 +4,20 @@ import styled from "styled-components";
 
 const MenuItem = styled.li`
   width: 100%;
-  height: 30px;
+  height: 50px;
   display: flex;
   justify-content: center;
-  padding: 5px;
   font-size: 15px;
   a {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
     text-align: center;
+    &:hover {
+      color: #3366ff;
+    }
   }
 `;
 
